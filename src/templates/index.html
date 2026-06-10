@@ -36,55 +36,67 @@
 
   <form method="post" action="{{ url_for('start_exam') }}" class="config-form">
     <div class="settings-inline-row">
-      <details class="inline-dropdown mode-dropdown">
-        <summary>Mode</summary>
-        <div class="dropdown-menu">
-          <label class="check-item compact">
-            <input type="radio" name="mode" value="exam" checked />
-            <span>Exam Mode</span>
-          </label>
-          <label class="check-item compact">
-            <input type="radio" name="mode" value="practice" />
-            <span>Practice Mode</span>
-          </label>
-        </div>
-      </details>
+      <div class="filter-group mode-group">
+        <details class="inline-dropdown mode-dropdown">
+          <summary>Mode</summary>
+          <div class="dropdown-menu">
+            <label class="check-item compact">
+              <input type="radio" name="mode" value="exam" checked />
+              <span>Exam Mode</span>
+            </label>
+            <label class="check-item compact">
+              <input type="radio" name="mode" value="practice" />
+              <span>Practice Mode</span>
+            </label>
+          </div>
+        </details>
+        <div class="selected-tags" data-empty="None"></div>
+      </div>
 
-      <details class="inline-dropdown">
-        <summary>Domains</summary>
-        <div class="dropdown-menu">
-          {% for domain in available_domains %}
-          <label class="check-item compact">
-            <input type="checkbox" name="domains" value="{{ domain }}" />
-            <span>{{ domain }}</span>
-          </label>
-          {% endfor %}
-        </div>
-      </details>
+      <div class="filter-group">
+        <details class="inline-dropdown">
+          <summary>Domains</summary>
+          <div class="dropdown-menu">
+            {% for domain in available_domains %}
+            <label class="check-item compact">
+              <input type="checkbox" name="domains" value="{{ domain }}" />
+              <span>{{ domain }}</span>
+            </label>
+            {% endfor %}
+          </div>
+        </details>
+        <div class="selected-tags" data-empty="All domains"></div>
+      </div>
 
-      <details class="inline-dropdown">
-        <summary>Difficulty</summary>
-        <div class="dropdown-menu">
-          {% for difficulty in available_difficulties %}
-          <label class="check-item compact">
-            <input type="checkbox" name="difficulties" value="{{ difficulty }}" />
-            <span>{{ difficulty|title }}</span>
-          </label>
-          {% endfor %}
-        </div>
-      </details>
+      <div class="filter-group">
+        <details class="inline-dropdown">
+          <summary>Difficulty</summary>
+          <div class="dropdown-menu">
+            {% for difficulty in available_difficulties %}
+            <label class="check-item compact">
+              <input type="checkbox" name="difficulties" value="{{ difficulty }}" />
+              <span>{{ difficulty|title }}</span>
+            </label>
+            {% endfor %}
+          </div>
+        </details>
+        <div class="selected-tags" data-empty="All levels"></div>
+      </div>
 
-      <details class="inline-dropdown">
-        <summary>Origin</summary>
-        <div class="dropdown-menu">
-          {% for origin in available_origins %}
-          <label class="check-item compact">
-            <input type="checkbox" name="origins" value="{{ origin }}" />
-            <span>{{ origin }}</span>
-          </label>
-          {% endfor %}
-        </div>
-      </details>
+      <div class="filter-group">
+        <details class="inline-dropdown">
+          <summary>Origin</summary>
+          <div class="dropdown-menu">
+            {% for origin in available_origins %}
+            <label class="check-item compact">
+              <input type="checkbox" name="origins" value="{{ origin }}" />
+              <span>{{ origin }}</span>
+            </label>
+            {% endfor %}
+          </div>
+        </details>
+        <div class="selected-tags" data-empty="All origins"></div>
+      </div>
 
       <div class="start-buttons">
         <button class="btn-primary" type="submit" name="source" value="regular">Start Mock Exam</button>
@@ -139,4 +151,42 @@
     <button class="btn-danger" type="submit">Reset Statistics</button>
   </form>
 </section>
+
+<script>
+  (function () {
+    const groups = document.querySelectorAll(".config-form .filter-group");
+
+    function renderTags(group) {
+      const container = group.querySelector(".selected-tags");
+      if (!container) return;
+
+      const checked = group.querySelectorAll(".inline-dropdown input:checked");
+      container.innerHTML = "";
+
+      if (checked.length === 0) {
+        const empty = document.createElement("span");
+        empty.className = "selected-empty";
+        empty.textContent = container.dataset.empty || "None";
+        container.appendChild(empty);
+        return;
+      }
+
+      checked.forEach(function (input) {
+        const label = input.closest("label");
+        const text = label ? label.textContent.trim() : input.value;
+        const chip = document.createElement("span");
+        chip.className = "selected-chip";
+        chip.textContent = text;
+        container.appendChild(chip);
+      });
+    }
+
+    groups.forEach(function (group) {
+      group.addEventListener("change", function () {
+        renderTags(group);
+      });
+      renderTags(group);
+    });
+  })();
+</script>
 {% endblock %}
