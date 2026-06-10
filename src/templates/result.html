@@ -17,7 +17,7 @@
     {% for item in result.review %}
     <article class="review-item {{ 'correct' if item.is_correct else 'wrong' }}">
       <h3>Q{{ loop.index }}. {{ item.question }}</h3>
-      <p class="muted">{{ item.domain }} | {{ item.difficulty|title }}</p>
+      <p class="muted">{{ item.domain }} | {{ item.difficulty|title }} | {{ item.origin }}</p>
 
       <div class="review-options">
         {% for option in item.options %}
