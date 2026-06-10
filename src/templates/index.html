@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card entrance settings-card">
+  <h1>Train Like the Real Snowflake Exam</h1>
+  <p class="lead">
+    Each attempt draws up to {{ exam_size }} questions from the question bank.
+    Pass mark is {{ passing_percent }}% correct.
+  </p>
+
+  {% if error_message %}
+  <p class="alert-error">{{ error_message }}</p>
+  {% endif %}
+
+  <div class="stats-grid">
+    <article class="stat-box">
+      <span class="label">Question Bank</span>
+      <span class="value">{{ stats.total_questions }}</span>
+    </article>
+    <article class="stat-box">
+      <span class="label">Attempts</span>
+      <span class="value">{{ stats.attempts }}</span>
+    </article>
+    <article class="stat-box">
+      <span class="label">Best Score</span>
+      <span class="value">{{ stats.best_score }}</span>
+    </article>
+    <article class="stat-box">
+      <span class="label">Pass Rate</span>
+      <span class="value">{{ stats.pass_rate }}%</span>
+    </article>
+    <article class="stat-box">
+      <span class="label">Incorrect Bank</span>
+      <span class="value">{{ stats.incorrect_bank_count }}</span>
+    </article>
+  </div>
+
+  <form method="post" action="{{ url_for('start_exam') }}" class="config-form">
+    <div class="settings-inline-row">
+      <details class="inline-dropdown mode-dropdown">
+        <summary>Mode</summary>
+        <div class="dropdown-menu">
+          <label class="check-item compact">
+            <input type="radio" name="mode" value="exam" checked />
+            <span>Exam Mode</span>
+          </label>
+          <label class="check-item compact">
+            <input type="radio" name="mode" value="practice" />
+            <span>Practice Mode</span>
+          </label>
+        </div>
+      </details>
+
+      <details class="inline-dropdown">
+        <summary>Domains</summary>
+        <div class="dropdown-menu">
+          {% for domain in available_domains %}
+          <label class="check-item compact">
+            <input type="checkbox" name="domains" value="{{ domain }}" />
+            <span>{{ domain }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </details>
+
+      <details class="inline-dropdown">
+        <summary>Difficulty</summary>
+        <div class="dropdown-menu">
+          {% for difficulty in available_difficulties %}
+          <label class="check-item compact">
+            <input type="checkbox" name="difficulties" value="{{ difficulty }}" />
+            <span>{{ difficulty|title }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </details>
+
+      <div class="start-buttons">
+        <button class="btn-primary" type="submit" name="source" value="regular">Start Mock Exam</button>
+        <button class="btn-secondary" type="submit" name="source" value="incorrect">Start Incorrect Review</button>
+      </div>
+    </div>
+
+    <p class="muted">No filters selected (or all selected) means full exam coverage.</p>
+  </form>
+
+  {% if draft_summary %}
+  <div class="draft-box">
+    <p>
+      <strong>Saved Draft:</strong>
+      {{ 'Incorrect Review' if draft_summary.source == 'incorrect' else 'Full Bank' }},
+      {{ draft_summary.mode|title }} mode,
+      {{ draft_summary.answered }} / {{ draft_summary.total }} answered.
+    </p>
+    <div class="draft-actions">
+      <a class="btn-secondary inline-action" href="{{ url_for('resume_exam') }}">Resume Draft</a>
+      <form method="post" action="{{ url_for('discard_exam') }}">
+        <button class="btn-danger" type="submit">Discard Draft</button>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+</section>
+
+<section class="card entrance delayed">
+  <h2>Recent Attempts (Latest 5)</h2>
+  {% if recent_results %}
+  <div class="history-list">
+    {% for result in recent_results %}
+    <article class="history-item {{ 'pass' if result.passed else 'fail' }}">
+      <p>
+        <strong>{{ result.score }} / {{ result.total }}</strong>
+        <span>{{ 'PASS' if result.passed else 'FAIL' }}</span>
+      </p>
+      <small>{{ result.finished_at }}</small>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">No attempts yet. Start your first mock exam.</p>
+  {% endif %}
+</section>
+
+<section class="card entrance delayed">
+  <h2>Statistics</h2>
+  <p class="muted">This clears attempt history and resets dashboard statistics.</p>
+  <form method="post" action="{{ url_for('reset_stats') }}">
+    <button class="btn-danger" type="submit">Reset Statistics</button>
+  </form>
+</section>
+{% endblock %}

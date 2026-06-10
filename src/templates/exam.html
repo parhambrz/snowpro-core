@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card entrance">
+  <div class="exam-header">
+    <h1>Question {{ index }} of {{ total }}</h1>
+    <p>
+      {{ answered_count }} answered | {{ mode|title }} mode |
+      {{ 'Incorrect Review Bank' if source == 'incorrect' else 'Full Bank' }}
+    </p>
+  </div>
+
+  <p class="muted">Domain: {{ question.domain }} | Difficulty: {{ question.difficulty|title }}</p>
+
+  <div class="progress-wrap" aria-hidden="true">
+    <div class="progress-bar" style="width: {{ (index / total * 100)|round(0, 'floor') }}%"></div>
+  </div>
+
+  <p class="question-text">{{ question.question }}</p>
+
+  <form method="post" class="options-form">
+    {% for option in question.options %}
+    {% set is_correct_option = option.key == question.correct_answer_key %}
+    {% set is_wrong_selected = is_revealed and selected_answer == option.key and not is_correct_option %}
+    <label class="option-row {{ 'correct-option' if is_revealed and is_correct_option else '' }} {{ 'wrong-selected-option' if is_wrong_selected else '' }}">
+      <input
+        type="radio"
+        name="selected_option"
+        value="{{ option.key }}"
+        {% if selected_answer == option.key %}checked{% endif %}
+        {% if mode == 'practice' and is_revealed %}disabled{% endif %}
+      />
+      <span><strong>{{ option.key }}.</strong> {{ option.text }}</span>
+    </label>
+    {% endfor %}
+
+    {% if mode == 'practice' and is_revealed %}
+    <div class="practice-feedback {{ 'pass' if is_correct else 'fail' }}">
+      <p>
+        <strong>{{ 'Correct.' if is_correct else 'Not correct.' }}</strong>
+        Correct answer: {{ question.correct_answer_key }}. {{ question.correct_answer_text }}
+      </p>
+      <p class="muted">Explanation: {{ question.explanation }}</p>
+    </div>
+    {% endif %}
+
+    <div class="nav-actions">
+      <button class="btn-secondary" name="action" value="prev" type="submit" {% if index == 1 %}disabled{% endif %}>
+        Previous
+      </button>
+
+      {% if mode == 'practice' %}
+        {% if is_revealed %}
+          {% if index == total %}
+          <button class="btn-primary" name="action" value="submit" type="submit">Finish Practice</button>
+          {% else %}
+          <button class="btn-primary" name="action" value="next" type="submit">Next</button>
+          {% endif %}
+        {% else %}
+          <button class="btn-primary" name="action" value="check" type="submit">Check Answer</button>
+        {% endif %}
+      {% else %}
+        <button class="btn-primary" name="action" value="next" type="submit">Save & Next</button>
+      {% endif %}
+
+      <button class="btn-danger" name="action" value="submit" type="submit" onclick="return confirm('Are you sure you want to finish the exam now?');">Finish Exam Now</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

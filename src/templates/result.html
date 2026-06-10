@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card entrance">
+  <h1>Exam Result</h1>
+  <p class="muted">Source: {{ 'Incorrect Review Bank' if result.source == 'incorrect' else 'Full Bank' }}</p>
+  <p class="score-pill {{ 'pass' if result.passed else 'fail' }}">
+    {{ result.score }} / {{ result.total }} ({{ result.score_percent }}%) - {{ 'PASS' if result.passed else 'FAIL' }}
+  </p>
+  <p class="muted">Passing threshold: {{ passing_percent }}% ({{ result.passing_required }} / {{ result.total }})</p>
+  <p class="muted">Answered: {{ result.answered }} / {{ result.total }}</p>
+  <a class="btn-primary inline-block" href="{{ url_for('index') }}">Back to Dashboard</a>
+</section>
+
+<section class="card entrance delayed">
+  <h2>Review</h2>
+  <div class="review-list">
+    {% for item in result.review %}
+    <article class="review-item {{ 'correct' if item.is_correct else 'wrong' }}">
+      <h3>Q{{ loop.index }}. {{ item.question }}</h3>
+      <p class="muted">{{ item.domain }} | {{ item.difficulty|title }}</p>
+
+      <div class="review-options">
+        {% for option in item.options %}
+        {% set is_correct_option = option.key == item.correct %}
+        {% set is_wrong_selected = (option.key == item.selected) and (not item.is_correct) %}
+        <p class="review-option {{ 'correct-option' if is_correct_option else '' }} {{ 'wrong-selected-option' if is_wrong_selected else '' }}">
+          <span class="option-badge">{{ option.key }}</span>
+          <span>{{ option.text }}</span>
+        </p>
+        {% endfor %}
+      </div>
+
+      <p class="review-note explanation-note">Explanation: {{ item.explanation }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
