@@ -293,6 +293,7 @@ def index():
     recent_results = list(reversed(all_results[-MAX_RECENT_RESULTS:]))
     available_domains = sorted({q["domain"] for q in questions})
     available_difficulties = sorted({q["difficulty"] for q in questions})
+    available_origins = sorted({q["origin"] for q in questions})
     error_message = request.args.get("error")
     draft = load_draft()
 
@@ -330,6 +331,7 @@ def index():
         exam_size=EXAM_SIZE,
         available_domains=available_domains,
         available_difficulties=available_difficulties,
+        available_origins=available_origins,
         error_message=error_message,
         draft_summary=draft_summary,
     )
@@ -343,6 +345,7 @@ def start_exam():
     incorrect_bank = load_incorrect_bank()
     selected_domains = set(request.form.getlist("domains"))
     selected_difficulties = {d.lower() for d in request.form.getlist("difficulties")}
+    selected_origins = set(request.form.getlist("origins"))
     mode = request.form.get("mode", "exam").strip().lower()
     source = request.form.get("source", "regular").strip().lower()
     if mode not in {"exam", "practice"}:
@@ -381,6 +384,7 @@ def start_exam():
         for q in base_questions
         if (not selected_domains or q["domain"] in selected_domains)
         and (not selected_difficulties or q["difficulty"] in selected_difficulties)
+        and (not selected_origins or q["origin"] in selected_origins)
     ]
 
     if len(filtered_questions) == 0:
@@ -410,6 +414,7 @@ def start_exam():
         "settings": {
             "domains": sorted(selected_domains),
             "difficulties": sorted(selected_difficulties),
+            "origins": sorted(selected_origins),
         },
     }
     set_exam_state(exam_state)

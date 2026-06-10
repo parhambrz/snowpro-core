@@ -74,6 +74,18 @@
         </div>
       </details>
 
+      <details class="inline-dropdown">
+        <summary>Origin</summary>
+        <div class="dropdown-menu">
+          {% for origin in available_origins %}
+          <label class="check-item compact">
+            <input type="checkbox" name="origins" value="{{ origin }}" />
+            <span>{{ origin }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </details>
+
       <div class="start-buttons">
         <button class="btn-primary" type="submit" name="source" value="regular">Start Mock Exam</button>
         <button class="btn-secondary" type="submit" name="source" value="incorrect">Start Incorrect Review</button>
