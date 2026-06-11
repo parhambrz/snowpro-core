@@ -18,10 +18,9 @@
   <p class="question-text">{{ question.question }}</p>
 
   <form method="post" class="options-form">
-    {% for option in question.options %}
-    {% set is_correct_option = option.key == question.correct_answer_key %}
-    {% set is_wrong_selected = is_revealed and selected_answer == option.key and not is_correct_option %}
-    <label class="option-row {{ 'correct-option' if is_revealed and is_correct_option else '' }} {{ 'wrong-selected-option' if is_wrong_selected else '' }}">
+    {% for option in display_options %}
+    {% set is_wrong_selected = is_revealed and selected_answer == option.key and not option.is_correct %}
+    <label class="option-row {{ 'correct-option' if is_revealed and option.is_correct else '' }} {{ 'wrong-selected-option' if is_wrong_selected else '' }}">
       <input
         type="radio"
         name="selected_option"
@@ -29,7 +28,7 @@
         {% if selected_answer == option.key %}checked{% endif %}
         {% if mode == 'practice' and is_revealed %}disabled{% endif %}
       />
-      <span><strong>{{ option.key }}.</strong> {{ option.text }}</span>
+      <span><strong>{{ option.display_key }}.</strong> {{ option.text }}</span>
     </label>
     {% endfor %}
 
@@ -37,7 +36,7 @@
     <div class="practice-feedback {{ 'pass' if is_correct else 'fail' }}">
       <p>
         <strong>{{ 'Correct.' if is_correct else 'Not correct.' }}</strong>
-        Correct answer: {{ question.correct_answer_key }}. {{ question.correct_answer_text }}
+        Correct answer: {{ correct_display_key }}. {{ question.correct_answer_text }}
       </p>
       <p class="muted">Explanation: {{ question.explanation }}</p>
     </div>

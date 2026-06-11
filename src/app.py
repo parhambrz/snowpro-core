@@ -117,6 +117,51 @@ def build_question_lookup(questions: list[dict]) -> dict[int, dict]:
     return {q["id"]: q for q in questions}
 
 
+DISPLAY_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H"]
+
+
+def shuffle_option_order(question: dict) -> list[str]:
+    keys = [opt["key"] for opt in question["options"]]
+    random.shuffle(keys)
+    return keys
+
+
+def build_display_options(question: dict, order: list[str]) -> tuple[list[dict], str | None]:
+    by_key = {opt["key"]: opt for opt in question["options"]}
+    if not order or sorted(order) != sorted(by_key.keys()):
+        order = [opt["key"] for opt in question["options"]]
+
+    display_options = []
+    correct_display_key = None
+    for i, key in enumerate(order):
+        opt = by_key.get(key)
+        if opt is None:
+            continue
+        display_key = DISPLAY_LETTERS[i] if i < len(DISPLAY_LETTERS) else str(i + 1)
+        is_correct = key == question["correct_answer_key"]
+        if is_correct:
+            correct_display_key = display_key
+        display_options.append(
+            {
+                "display_key": display_key,
+                "key": key,
+                "text": opt["text"],
+                "is_correct": is_correct,
+            }
+        )
+    return display_options, correct_display_key
+
+
+def get_option_order(exam_state: dict, question: dict) -> list[str]:
+    orders = exam_state.setdefault("option_orders", {})
+    key = str(question["id"])
+    order = orders.get(key)
+    if not order:
+        order = shuffle_option_order(question)
+        orders[key] = order
+    return order
+
+
 def get_exam_state() -> dict:
     return session.get("active_exam", {})
 
@@ -467,6 +512,7 @@ def start_exam():
         "question_ids": question_ids,
         "answers": {},
         "revealed": {},
+        "option_orders": {str(q["id"]): shuffle_option_order(q) for q in selected},
         "finished": False,
         "mode": mode,
         "source": source,
@@ -571,6 +617,9 @@ def exam_question(index: int):
     is_revealed = bool(exam_state.get("revealed", {}).get(str(current_qid)))
     is_correct = selected_answer == current_question["correct_answer_key"] if selected_answer else False
 
+    option_order = get_option_order(exam_state, current_question)
+    display_options, correct_display_key = build_display_options(current_question, option_order)
+
     exam_state["current_index"] = index
     set_exam_state(exam_state)
     save_draft(exam_state)
@@ -591,6 +640,8 @@ def exam_question(index: int):
         is_revealed=is_revealed,
         is_correct=is_correct,
         practice_progress=practice_progress,
+        display_options=display_options,
+        correct_display_key=correct_display_key,
     )
 
 
@@ -618,6 +669,9 @@ def submit_exam():
         if is_correct:
             score += 1
 
+        option_order = get_option_order(exam_state, question)
+        display_options, correct_display_key = build_display_options(question, option_order)
+
         review.append(
             {
                 "id": qid,
@@ -625,13 +679,13 @@ def submit_exam():
                 "difficulty": question["difficulty"],
                 "origin": question["origin"],
                 "question": question["question"],
-                "options": question["options"],
+                "options": display_options,
                 "selected": selected,
                 "selected_text": next(
                     (opt["text"] for opt in question["options"] if opt["key"] == selected),
                     None,
                 ),
-                "correct": question["correct_answer_key"],
+                "correct": correct_display_key,
                 "correct_text": question["correct_answer_text"],
                 "is_correct": is_correct,
                 "explanation": question["explanation"],
