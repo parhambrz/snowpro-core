@@ -29,8 +29,16 @@
       <span class="value">{{ stats.pass_rate }}%</span>
     </article>
     <article class="stat-box">
-      <span class="label">Incorrect Bank</span>
-      <span class="value">{{ stats.incorrect_bank_count }}</span>
+      <span class="label">Unseen Pot</span>
+      <span class="value">{{ stats.unseen_count }}</span>
+    </article>
+    <article class="stat-box">
+      <span class="label">Correct Pot</span>
+      <span class="value">{{ stats.correct_pot_count }}</span>
+    </article>
+    <article class="stat-box">
+      <span class="label">Incorrect Pot</span>
+      <span class="value">{{ stats.incorrect_pot_count }}</span>
     </article>
   </div>
 
@@ -98,20 +106,40 @@
         <div class="selected-tags" data-empty="All origins"></div>
       </div>
 
+      <div class="filter-group">
+        <details class="inline-dropdown">
+          <summary>Pots</summary>
+          <div class="dropdown-menu">
+            <label class="check-item compact">
+              <input type="checkbox" name="pots" value="unseen" />
+              <span>Unseen</span>
+            </label>
+            <label class="check-item compact">
+              <input type="checkbox" name="pots" value="correct" />
+              <span>Correct</span>
+            </label>
+            <label class="check-item compact">
+              <input type="checkbox" name="pots" value="incorrect" />
+              <span>Incorrect</span>
+            </label>
+          </div>
+        </details>
+        <div class="selected-tags" data-empty="All pots"></div>
+      </div>
+
       <div class="start-buttons">
-        <button class="btn-primary" type="submit" name="source" value="regular">Start Mock Exam</button>
-        <button class="btn-secondary" type="submit" name="source" value="incorrect">Start Incorrect Review</button>
+        <button class="btn-primary" type="submit">Start Mock Exam</button>
       </div>
     </div>
 
-    <p class="muted">No filters selected (or all selected) means full exam coverage.</p>
+    <p class="muted">No filters selected (or all selected) means full exam coverage across all pots.</p>
   </form>
 
   {% if draft_summary %}
   <div class="draft-box">
     <p>
       <strong>Saved Draft:</strong>
-      {{ 'Incorrect Review' if draft_summary.source == 'incorrect' else 'Full Bank' }},
+      {{ draft_summary.pots|join(', ')|title }} pots,
       {{ draft_summary.mode|title }} mode,
       {{ draft_summary.answered }} / {{ draft_summary.total }} answered.
     </p>
@@ -155,6 +183,7 @@
 <script>
   (function () {
     const groups = document.querySelectorAll(".config-form .filter-group");
+    const dropdowns = document.querySelectorAll(".config-form .inline-dropdown");
 
     function renderTags(group) {
       const container = group.querySelector(".selected-tags");
@@ -186,6 +215,21 @@
         renderTags(group);
       });
       renderTags(group);
+    });
+
+    document.addEventListener("click", function (event) {
+      dropdowns.forEach(function (dropdown) {
+        if (!dropdown.hasAttribute("open")) return;
+        if (dropdown.contains(event.target)) return;
+        dropdown.removeAttribute("open");
+      });
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "Escape") return;
+      dropdowns.forEach(function (dropdown) {
+        dropdown.removeAttribute("open");
+      });
     });
   })();
 </script>

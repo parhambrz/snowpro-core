@@ -5,7 +5,7 @@
     <h1>Question {{ index }} of {{ total }}</h1>
     <p>
       {{ answered_count }} answered | {{ mode|title }} mode |
-      {{ 'Incorrect Review Bank' if source == 'incorrect' else 'Full Bank' }}
+      Pots: {{ selected_pots|join(', ')|title }}
     </p>
   </div>
 

@@ -2,7 +2,7 @@
 {% block content %}
 <section class="card entrance">
   <h1>Exam Result</h1>
-  <p class="muted">Source: {{ 'Incorrect Review Bank' if result.source == 'incorrect' else 'Full Bank' }}</p>
+  <p class="muted">Pots: {{ (result.pots or ['unseen','correct','incorrect'])|join(', ')|title }}</p>
   <p class="score-pill {{ 'pass' if result.passed else 'fail' }}">
     {{ result.score }} / {{ result.total }} ({{ result.score_percent }}%) - {{ 'PASS' if result.passed else 'FAIL' }}
   </p>

@@ -14,6 +14,7 @@ QUESTION_BANK_FILE = BASE_DIR.parent / "data" / "snowpro_core_questions.json"
 RESULTS_FILE = BASE_DIR / "data" / "exam_results.json"
 DRAFT_FILE = BASE_DIR / "data" / "exam_draft.json"
 INCORRECT_FILE = BASE_DIR / "data" / "incorrect_questions.json"
+POTS_FILE = BASE_DIR / "data" / "question_pots.json"
 EXAM_SIZE = 100
 PASSING_PERCENT = 75.0
 MAX_RECENT_RESULTS = 5
@@ -94,23 +95,55 @@ def clear_draft() -> None:
         DRAFT_FILE.unlink()
 
 
-def load_incorrect_bank() -> set[int]:
-    if not INCORRECT_FILE.exists():
-        return set()
-    with INCORRECT_FILE.open("r", encoding="utf-8") as file:
-        payload = json.load(file)
-    ids = payload.get("question_ids", [])
-    return {int(qid) for qid in ids}
+def load_question_pots(all_question_ids: set[int]) -> dict[str, set[int]]:
+    correct_ids: set[int] = set()
+    incorrect_ids: set[int] = set()
 
+    if POTS_FILE.exists():
+        with POTS_FILE.open("r", encoding="utf-8") as file:
+            payload = json.load(file)
+        correct_ids = {int(qid) for qid in payload.get("correct_ids", [])}
+        incorrect_ids = {int(qid) for qid in payload.get("incorrect_ids", [])}
+    elif INCORRECT_FILE.exists():
+        # Backward compatibility: bootstrap pots from legacy incorrect bank.
+        with INCORRECT_FILE.open("r", encoding="utf-8") as file:
+            payload = json.load(file)
+        incorrect_ids = {int(qid) for qid in payload.get("question_ids", [])}
 
-def save_incorrect_bank(question_ids: set[int]) -> None:
-    INCORRECT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    payload = {
-        "question_ids": sorted(question_ids),
-        "count": len(question_ids),
+    # Keep only valid IDs and ensure a question cannot exist in both pots.
+    correct_ids = {qid for qid in correct_ids if qid in all_question_ids}
+    incorrect_ids = {qid for qid in incorrect_ids if qid in all_question_ids}
+    overlap = correct_ids.intersection(incorrect_ids)
+    if overlap:
+        incorrect_ids -= overlap
+
+    return {
+        "correct": correct_ids,
+        "incorrect": incorrect_ids,
     }
-    with INCORRECT_FILE.open("w", encoding="utf-8") as file:
+
+
+def save_question_pots(pots: dict[str, set[int]]) -> None:
+    POTS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "correct_ids": sorted(pots.get("correct", set())),
+        "incorrect_ids": sorted(pots.get("incorrect", set())),
+        "correct_count": len(pots.get("correct", set())),
+        "incorrect_count": len(pots.get("incorrect", set())),
+    }
+    with POTS_FILE.open("w", encoding="utf-8") as file:
         json.dump(payload, file, indent=2)
+
+
+def get_pot_membership(all_question_ids: set[int], pots: dict[str, set[int]]) -> dict[str, set[int]]:
+    correct = set(pots.get("correct", set()))
+    incorrect = set(pots.get("incorrect", set()))
+    unseen = set(all_question_ids) - correct - incorrect
+    return {
+        "unseen": unseen,
+        "correct": correct,
+        "incorrect": incorrect,
+    }
 
 
 def build_question_lookup(questions: list[dict]) -> dict[int, dict]:
@@ -393,7 +426,9 @@ def build_balanced_exam_questions(questions: list[dict], exam_size: int) -> list
 def index():
     question_bank = load_question_bank()
     questions = question_bank["questions"]
-    incorrect_bank = load_incorrect_bank()
+    all_ids = {q["id"] for q in questions}
+    pots = load_question_pots(all_ids)
+    pot_membership = get_pot_membership(all_ids, pots)
     all_results = load_results()
     recent_results = list(reversed(all_results[-MAX_RECENT_RESULTS:]))
     available_domains = sorted({q["domain"] for q in questions})
@@ -408,7 +443,7 @@ def index():
         draft_answers = draft.get("answers", {})
         draft_summary = {
             "mode": draft.get("mode", "exam"),
-            "source": draft.get("source", "regular"),
+            "pots": draft.get("pots", ["unseen", "correct", "incorrect"]),
             "answered": sum(1 for answer in draft_answers.values() if answer),
             "total": draft_total,
             "started_at": draft.get("started_at"),
@@ -425,7 +460,9 @@ def index():
         )
         if all_results
         else 0.0,
-        "incorrect_bank_count": len(incorrect_bank),
+        "unseen_count": len(pot_membership["unseen"]),
+        "correct_pot_count": len(pot_membership["correct"]),
+        "incorrect_pot_count": len(pot_membership["incorrect"]),
     }
 
     return render_template(
@@ -447,42 +484,27 @@ def start_exam():
     question_bank = load_question_bank()
     questions = question_bank["questions"]
     question_lookup = {q["id"]: q for q in questions}
-    incorrect_bank = load_incorrect_bank()
+    all_ids = {q["id"] for q in questions}
+    pots = load_question_pots(all_ids)
+    pot_membership = get_pot_membership(all_ids, pots)
+    selected_pots = {p.lower() for p in request.form.getlist("pots")}
+    allowed_pots = {"unseen", "correct", "incorrect"}
+    selected_pots = selected_pots.intersection(allowed_pots)
+    if not selected_pots:
+        selected_pots = set(allowed_pots)
+
+    selected_ids: set[int] = set()
+    for pot_name in selected_pots:
+        selected_ids |= pot_membership[pot_name]
+
     selected_domains = set(request.form.getlist("domains"))
     selected_difficulties = {d.lower() for d in request.form.getlist("difficulties")}
     selected_origins = set(request.form.getlist("origins"))
     mode = request.form.get("mode", "exam").strip().lower()
-    source = request.form.get("source", "regular").strip().lower()
     if mode not in {"exam", "practice"}:
         mode = "exam"
-    if source not in {"regular", "incorrect"}:
-        source = "regular"
 
-    base_questions = questions
-    if source == "incorrect":
-        if not incorrect_bank:
-            return redirect(
-                url_for(
-                    "index",
-                    error=(
-                        "All questions are learned. There are no incorrectly answered "
-                        "questions to review right now."
-                    ),
-                )
-            )
-        base_questions = [question_lookup[qid] for qid in sorted(incorrect_bank) if qid in question_lookup]
-
-        if not base_questions:
-            save_incorrect_bank(set())
-            return redirect(
-                url_for(
-                    "index",
-                    error=(
-                        "All questions are learned. There are no incorrectly answered "
-                        "questions to review right now."
-                    ),
-                )
-            )
+    base_questions = [question_lookup[qid] for qid in sorted(selected_ids) if qid in question_lookup]
 
     filtered_questions = [
         q
@@ -493,13 +515,17 @@ def start_exam():
     ]
 
     if len(filtered_questions) == 0:
+        if selected_pots == {"incorrect"} and len(pot_membership["incorrect"]) == 0:
+            message = "All questions are learned. There are no incorrectly answered questions to review right now."
+        else:
+            message = (
+                "No questions found for the selected filters. "
+                "Please broaden your domain/difficulty/origin/pot selection."
+            )
         return redirect(
             url_for(
                 "index",
-                error=(
-                    "No questions found for the selected filters. "
-                    "Please broaden your domain/difficulty selection."
-                ),
+                error=message,
             )
         )
 
@@ -515,7 +541,7 @@ def start_exam():
         "option_orders": {str(q["id"]): shuffle_option_order(q) for q in selected},
         "finished": False,
         "mode": mode,
-        "source": source,
+        "pots": sorted(selected_pots),
         "current_index": 1,
         "settings": {
             "domains": sorted(selected_domains),
@@ -568,7 +594,7 @@ def exam_question(index: int):
     current_qid = question_ids[index - 1]
     current_question = lookup[current_qid]
     mode = exam_state.get("mode", "exam")
-    source = exam_state.get("source", "regular")
+    selected_pots = exam_state.get("pots", ["unseen", "correct", "incorrect"])
 
     if request.method == "POST":
         selected_option = request.form.get("selected_option")
@@ -636,7 +662,7 @@ def exam_question(index: int):
         selected_answer=selected_answer,
         answered_count=answered_count,
         mode=mode,
-        source=source,
+        selected_pots=selected_pots,
         is_revealed=is_revealed,
         is_correct=is_correct,
         practice_progress=practice_progress,
@@ -659,8 +685,9 @@ def submit_exam():
     score = 0
     review = []
     answers = exam_state.get("answers", {})
-    source = exam_state.get("source", "regular")
-    incorrect_bank = load_incorrect_bank()
+    all_ids = {q["id"] for q in question_bank["questions"]}
+    pots = load_question_pots(all_ids)
+    selected_pots = exam_state.get("pots", ["unseen", "correct", "incorrect"])
 
     for qid in question_ids:
         question = lookup[qid]
@@ -692,17 +719,18 @@ def submit_exam():
             }
         )
 
-        if source == "incorrect":
-            if selected is None:
-                continue
-            if is_correct:
-                incorrect_bank.discard(qid)
-            else:
-                incorrect_bank.add(qid)
-        elif selected is not None and not is_correct:
-            incorrect_bank.add(qid)
+        if selected is None:
+            # Skipped questions move (or stay) in unseen/main bank.
+            pots["correct"].discard(qid)
+            pots["incorrect"].discard(qid)
+        elif is_correct:
+            pots["correct"].add(qid)
+            pots["incorrect"].discard(qid)
+        else:
+            pots["incorrect"].add(qid)
+            pots["correct"].discard(qid)
 
-    save_incorrect_bank(incorrect_bank)
+    save_question_pots(pots)
 
     total_questions = len(question_ids)
     score_percent = (score / total_questions * 100) if total_questions else 0.0
@@ -721,7 +749,7 @@ def submit_exam():
         "passing_required": passing_required,
         "passed": passed,
         "settings": exam_state.get("settings", {}),
-        "source": source,
+        "pots": selected_pots,
         "review": review,
     }
 
