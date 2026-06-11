@@ -133,6 +133,66 @@ def compute_resume_index(question_ids: list[int], answers: dict[str, str]) -> in
     return len(question_ids)
 
 
+def compute_practice_progress(exam_state: dict, lookup: dict[int, dict]) -> dict:
+    question_ids = exam_state.get("question_ids", [])
+    answers = exam_state.get("answers", {})
+    revealed = exam_state.get("revealed", {})
+
+    overall = {"correct": 0, "wrong": 0, "skipped": 0, "total": len(question_ids)}
+    breakdowns: dict[str, dict[str, dict]] = {"domain": {}, "difficulty": {}, "origin": {}}
+
+    for qid in question_ids:
+        question = lookup.get(qid)
+        if not question:
+            continue
+
+        is_revealed = bool(revealed.get(str(qid)))
+        answer = answers.get(str(qid))
+        if is_revealed and answer:
+            status = "correct" if answer == question["correct_answer_key"] else "wrong"
+        else:
+            status = "skipped"
+
+        overall[status] += 1
+
+        dimensions = (
+            ("domain", question["domain"]),
+            ("difficulty", question["difficulty"]),
+            ("origin", question["origin"]),
+        )
+        for dimension, key in dimensions:
+            bucket = breakdowns[dimension].setdefault(
+                key, {"label": key, "correct": 0, "wrong": 0, "skipped": 0, "total": 0}
+            )
+            bucket[status] += 1
+            bucket["total"] += 1
+
+    def summarize(node: dict) -> dict:
+        answered = node["correct"] + node["wrong"]
+        accuracy = round(node["correct"] / answered * 100, 1) if answered else 0.0
+        total = node["total"] or 1
+        node["answered"] = answered
+        node["accuracy"] = accuracy
+        node["correct_pct"] = round(node["correct"] / total * 100, 1)
+        node["wrong_pct"] = round(node["wrong"] / total * 100, 1)
+        node["skipped_pct"] = round(node["skipped"] / total * 100, 1)
+        return node
+
+    summarize(overall)
+    predicted_percent = overall["accuracy"]
+    overall["predicted_percent"] = predicted_percent
+    overall["predicted_pass"] = predicted_percent >= PASSING_PERCENT
+    overall["passing_percent"] = PASSING_PERCENT
+
+    grouped = {}
+    for dimension, buckets in breakdowns.items():
+        grouped[dimension] = [
+            summarize(bucket) for _, bucket in sorted(buckets.items(), key=lambda kv: kv[0])
+        ]
+
+    return {"overall": overall, "breakdowns": grouped}
+
+
 def allocate_by_capacity(total: int, capacities: dict[str, int], min_each: int = 0) -> dict[str, int]:
     keys = [key for key, cap in capacities.items() if cap > 0]
     allocation = {key: 0 for key in capacities}
@@ -515,6 +575,10 @@ def exam_question(index: int):
     set_exam_state(exam_state)
     save_draft(exam_state)
 
+    practice_progress = (
+        compute_practice_progress(exam_state, lookup) if mode == "practice" else None
+    )
+
     return render_template(
         "exam.html",
         question=current_question,
@@ -526,6 +590,7 @@ def exam_question(index: int):
         source=source,
         is_revealed=is_revealed,
         is_correct=is_correct,
+        practice_progress=practice_progress,
     )
 
 

@@ -358,6 +358,170 @@ h3 {
   background: linear-gradient(90deg, var(--brand), #1f8b77);
 }
 
+.practice-progress {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  margin-top: 1.6rem;
+  margin-bottom: 1.2rem;
+  background: #fbf6ec;
+}
+
+.practice-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.practice-progress-head h2 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.predict-badge {
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line);
+}
+
+.predict-badge.pass {
+  border-color: rgba(31, 122, 79, 0.45);
+  background: rgba(31, 122, 79, 0.12);
+  color: #1f7a4f;
+}
+
+.predict-badge.fail {
+  border-color: rgba(162, 52, 43, 0.5);
+  background: rgba(162, 52, 43, 0.12);
+  color: #a2342b;
+}
+
+.score-bar {
+  display: flex;
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #ece2d3;
+}
+
+.score-bar.small {
+  height: 9px;
+  flex: 1 1 auto;
+}
+
+.score-seg {
+  height: 100%;
+}
+
+.score-seg.correct {
+  background: #2f9e6f;
+}
+
+.score-seg.wrong {
+  background: #c4564b;
+}
+
+.score-seg.skipped {
+  background: #d8cbb4;
+}
+
+.score-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 0.55rem;
+  font-size: 0.85rem;
+}
+
+.score-legend .legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.score-legend .legend::before {
+  content: "";
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.85;
+}
+
+.score-legend .legend.correct {
+  color: #1f7a4f;
+}
+
+.score-legend .legend.wrong {
+  color: #a2342b;
+}
+
+.score-legend .legend.skipped {
+  color: #9a8f7c;
+}
+
+.score-legend .legend.total,
+.score-legend .legend.accuracy {
+  color: #4a3f2c;
+}
+
+.score-legend .legend.total::before,
+.score-legend .legend.accuracy::before {
+  display: none;
+}
+
+.breakdown {
+  margin-top: 0.7rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.5rem;
+}
+
+.breakdown summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.breakdown-body {
+  margin-top: 0.55rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+}
+
+.breakdown-label {
+  flex: 0 0 28%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.breakdown-stat {
+  flex: 0 0 auto;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.76rem;
+  color: #4a3f2c;
+  white-space: nowrap;
+}
+
+.breakdown-key {
+  margin-top: 0.55rem;
+  font-size: 0.76rem;
+}
+
 .question-text {
   font-size: 1.06rem;
   line-height: 1.5;

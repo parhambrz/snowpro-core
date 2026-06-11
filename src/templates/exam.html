@@ -65,5 +65,53 @@
       <button class="btn-danger" name="action" value="submit" type="submit" onclick="return confirm('Are you sure you want to finish the exam now?');">Finish Exam Now</button>
     </div>
   </form>
+
+  {% if mode == 'practice' and practice_progress %}
+  {% set p = practice_progress.overall %}
+  <div class="practice-progress">
+    <div class="practice-progress-head">
+      <h2>Practice Progress</h2>
+      <span class="predict-badge {{ 'pass' if p.predicted_pass else 'fail' }}">
+        Predicted: {{ 'PASS' if p.predicted_pass else 'FAIL' }} ({{ p.predicted_percent }}%)
+      </span>
+    </div>
+
+    <div class="score-bar" role="img"
+      aria-label="{{ p.correct }} correct, {{ p.wrong }} wrong, {{ p.skipped }} skipped of {{ p.total }}">
+      <div class="score-seg correct" style="width: {{ p.correct_pct }}%"></div>
+      <div class="score-seg wrong" style="width: {{ p.wrong_pct }}%"></div>
+      <div class="score-seg skipped" style="width: {{ p.skipped_pct }}%"></div>
+    </div>
+
+    <div class="score-legend">
+      <span class="legend correct">Correct: {{ p.correct }}</span>
+      <span class="legend wrong">Wrong: {{ p.wrong }}</span>
+      <span class="legend skipped">Skipped: {{ p.skipped }}</span>
+      <span class="legend total">Answered: {{ p.answered }} / {{ p.total }}</span>
+      <span class="legend accuracy">Accuracy: {{ p.accuracy }}%</span>
+    </div>
+
+    {% set dimensions = [('Domain', practice_progress.breakdowns.domain), ('Difficulty', practice_progress.breakdowns.difficulty), ('Origin', practice_progress.breakdowns.origin)] %}
+    {% for title, rows in dimensions %}
+    <details class="breakdown">
+      <summary>Breakdown by {{ title }}</summary>
+      <div class="breakdown-body">
+        {% for row in rows %}
+        <div class="breakdown-row">
+          <span class="breakdown-label">{{ row.label|title if title == 'Difficulty' else row.label }}</span>
+          <div class="score-bar small">
+            <div class="score-seg correct" style="width: {{ row.correct_pct }}%"></div>
+            <div class="score-seg wrong" style="width: {{ row.wrong_pct }}%"></div>
+            <div class="score-seg skipped" style="width: {{ row.skipped_pct }}%"></div>
+          </div>
+          <span class="breakdown-stat">{{ row.correct }}/{{ row.wrong }}/{{ row.skipped }} · {{ row.accuracy }}%</span>
+        </div>
+        {% endfor %}
+      </div>
+    </details>
+    {% endfor %}
+    <p class="muted breakdown-key">Stat key: correct / wrong / skipped · accuracy of answered.</p>
+  </div>
+  {% endif %}
 </section>
 {% endblock %}
