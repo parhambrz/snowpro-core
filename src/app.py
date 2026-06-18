@@ -720,9 +720,8 @@ def submit_exam():
         )
 
         if selected is None:
-            # Skipped questions move (or stay) in unseen/main bank.
-            pots["correct"].discard(qid)
-            pots["incorrect"].discard(qid)
+            # Skipped questions keep their current pot membership.
+            pass
         elif is_correct:
             pots["correct"].add(qid)
             pots["incorrect"].discard(qid)
