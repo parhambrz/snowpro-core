@@ -182,8 +182,65 @@
 
 <script>
   (function () {
+    const form = document.querySelector(".config-form");
+    if (!form) return;
+
     const groups = document.querySelectorAll(".config-form .filter-group");
     const dropdowns = document.querySelectorAll(".config-form .inline-dropdown");
+    const settingsKey = "snowpro.examSettings.v1";
+
+    function getSavedSettings() {
+      try {
+        const raw = window.localStorage.getItem(settingsKey);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" ? parsed : null;
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function saveSettings() {
+      const checked = function (name) {
+        return Array.from(form.querySelectorAll('input[name="' + name + '"]:checked')).map(function (input) {
+          return input.value;
+        });
+      };
+
+      const modeInput = form.querySelector('input[name="mode"]:checked');
+      const payload = {
+        mode: modeInput ? modeInput.value : "exam",
+        domains: checked("domains"),
+        difficulties: checked("difficulties"),
+        origins: checked("origins"),
+        pots: checked("pots"),
+      };
+
+      try {
+        window.localStorage.setItem(settingsKey, JSON.stringify(payload));
+      } catch (_) {
+        // Ignore storage failures (private mode, quota, etc.).
+      }
+    }
+
+    function applySavedSettings(saved) {
+      if (!saved) return;
+
+      if (typeof saved.mode === "string") {
+        const modeInput = form.querySelector('input[name="mode"][value="' + saved.mode + '"]');
+        if (modeInput) {
+          modeInput.checked = true;
+        }
+      }
+
+      ["domains", "difficulties", "origins", "pots"].forEach(function (name) {
+        const selected = new Set(Array.isArray(saved[name]) ? saved[name] : []);
+        const inputs = form.querySelectorAll('input[name="' + name + '"]');
+        inputs.forEach(function (input) {
+          input.checked = selected.has(input.value);
+        });
+      });
+    }
 
     function renderTags(group) {
       const container = group.querySelector(".selected-tags");
@@ -210,9 +267,12 @@
       });
     }
 
+    applySavedSettings(getSavedSettings());
+
     groups.forEach(function (group) {
       group.addEventListener("change", function () {
         renderTags(group);
+        saveSettings();
       });
       renderTags(group);
     });
