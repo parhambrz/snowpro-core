@@ -10,11 +10,21 @@ from pathlib import Path
 from flask import Flask, redirect, render_template, request, session, url_for
 
 BASE_DIR = Path(__file__).resolve().parent
-QUESTION_BANK_FILE = BASE_DIR.parent / "data" / "snowpro_core_questions.json"
-RESULTS_FILE = BASE_DIR / "data" / "exam_results.json"
-DRAFT_FILE = BASE_DIR / "data" / "exam_draft.json"
-INCORRECT_FILE = BASE_DIR / "data" / "incorrect_questions.json"
-POTS_FILE = BASE_DIR / "data" / "question_pots.json"
+QUESTION_BANKS_DIR = BASE_DIR.parent / "data" / "exams"
+EXAM_STATE_DIR = BASE_DIR / "data" / "exams"
+DEFAULT_EXAM_ID = "snowpro-core"
+
+# Legacy single-exam files kept for backward compatibility.
+LEGACY_QUESTION_BANK_FILE = BASE_DIR.parent / "data" / "snowpro_core_questions.json"
+LEGACY_RESULTS_FILE = BASE_DIR / "data" / "exam_results.json"
+LEGACY_DRAFT_FILE = BASE_DIR / "data" / "exam_draft.json"
+LEGACY_INCORRECT_FILE = BASE_DIR / "data" / "incorrect_questions.json"
+LEGACY_POTS_FILE = BASE_DIR / "data" / "question_pots.json"
+
+RESULTS_FILENAME = "exam_results.json"
+DRAFT_FILENAME = "exam_draft.json"
+INCORRECT_FILENAME = "incorrect_questions.json"
+POTS_FILENAME = "question_pots.json"
 EXAM_SIZE = 100
 PASSING_PERCENT = 75.0
 MAX_RECENT_RESULTS = 5
@@ -28,12 +38,81 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "snowpro-core-dev-secret")
 
 
-def load_question_bank() -> dict:
-    if not QUESTION_BANK_FILE.exists():
-        raise FileNotFoundError(
-            "snowpro_core_questions.json not found in /data."
-        )
-    with QUESTION_BANK_FILE.open("r", encoding="utf-8") as file:
+def discover_exams() -> dict[str, dict]:
+    exams: dict[str, dict] = {}
+
+    if QUESTION_BANKS_DIR.exists():
+        for exam_dir in sorted(QUESTION_BANKS_DIR.iterdir()):
+            if not exam_dir.is_dir():
+                continue
+            question_file = exam_dir / "questions.json"
+            if not question_file.exists():
+                continue
+            with question_file.open("r", encoding="utf-8") as file:
+                payload = json.load(file)
+            exams[exam_dir.name] = {
+                "id": exam_dir.name,
+                "exam_name": payload.get("examName", exam_dir.name),
+                "question_file": question_file,
+                "question_count": len(payload.get("questions", [])),
+            }
+
+    if not exams and LEGACY_QUESTION_BANK_FILE.exists():
+        with LEGACY_QUESTION_BANK_FILE.open("r", encoding="utf-8") as file:
+            payload = json.load(file)
+        exams[DEFAULT_EXAM_ID] = {
+            "id": DEFAULT_EXAM_ID,
+            "exam_name": payload.get("examName", "SnowPro Core"),
+            "question_file": LEGACY_QUESTION_BANK_FILE,
+            "question_count": len(payload.get("questions", [])),
+        }
+
+    return exams
+
+
+def resolve_exam_id(exams: dict[str, dict]) -> str:
+    requested_exam_id = (
+        request.values.get("exam_id")
+        or request.args.get("exam")
+        or session.get("selected_exam_id")
+    )
+
+    if requested_exam_id in exams:
+        session["selected_exam_id"] = requested_exam_id
+        return requested_exam_id
+
+    if DEFAULT_EXAM_ID in exams:
+        session["selected_exam_id"] = DEFAULT_EXAM_ID
+        return DEFAULT_EXAM_ID
+
+    first_exam_id = next(iter(exams.keys()), "")
+    if first_exam_id:
+        session["selected_exam_id"] = first_exam_id
+    return first_exam_id
+
+
+def resolve_state_file(exam_id: str, filename: str) -> Path:
+    modern_path = EXAM_STATE_DIR / exam_id / filename
+
+    if filename == RESULTS_FILENAME and exam_id == DEFAULT_EXAM_ID and not modern_path.exists() and LEGACY_RESULTS_FILE.exists():
+        return LEGACY_RESULTS_FILE
+    if filename == DRAFT_FILENAME and exam_id == DEFAULT_EXAM_ID and not modern_path.exists() and LEGACY_DRAFT_FILE.exists():
+        return LEGACY_DRAFT_FILE
+    if filename == INCORRECT_FILENAME and exam_id == DEFAULT_EXAM_ID and not modern_path.exists() and LEGACY_INCORRECT_FILE.exists():
+        return LEGACY_INCORRECT_FILE
+    if filename == POTS_FILENAME and exam_id == DEFAULT_EXAM_ID and not modern_path.exists() and LEGACY_POTS_FILE.exists():
+        return LEGACY_POTS_FILE
+
+    return modern_path
+
+
+def load_question_bank(exam_id: str, exams: dict[str, dict]) -> dict:
+    exam = exams.get(exam_id)
+    if not exam:
+        raise FileNotFoundError("No exam definitions found in /data/exams.")
+
+    question_file = exam["question_file"]
+    with question_file.open("r", encoding="utf-8") as file:
         raw = json.load(file)
 
     normalized_questions = []
@@ -58,55 +137,64 @@ def load_question_bank() -> dict:
         )
 
     return {
+        "exam_id": exam_id,
         "exam_name": raw.get("examName", "SnowPro Core"),
         "question_count": len(normalized_questions),
         "questions": normalized_questions,
     }
 
 
-def load_results() -> list[dict]:
-    if not RESULTS_FILE.exists():
+def load_results(exam_id: str) -> list[dict]:
+    results_file = resolve_state_file(exam_id, RESULTS_FILENAME)
+    if not results_file.exists():
         return []
-    with RESULTS_FILE.open("r", encoding="utf-8") as file:
+    with results_file.open("r", encoding="utf-8") as file:
         return json.load(file)
 
 
-def save_results(results: list[dict]) -> None:
-    RESULTS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with RESULTS_FILE.open("w", encoding="utf-8") as file:
+def save_results(exam_id: str, results: list[dict]) -> None:
+    results_file = resolve_state_file(exam_id, RESULTS_FILENAME)
+    results_file.parent.mkdir(parents=True, exist_ok=True)
+    with results_file.open("w", encoding="utf-8") as file:
         json.dump(results, file, indent=2)
 
 
-def load_draft() -> dict | None:
-    if not DRAFT_FILE.exists():
+def load_draft(exam_id: str) -> dict | None:
+    draft_file = resolve_state_file(exam_id, DRAFT_FILENAME)
+    if not draft_file.exists():
         return None
-    with DRAFT_FILE.open("r", encoding="utf-8") as file:
+    with draft_file.open("r", encoding="utf-8") as file:
         return json.load(file)
 
 
-def save_draft(state: dict) -> None:
-    DRAFT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with DRAFT_FILE.open("w", encoding="utf-8") as file:
+def save_draft(exam_id: str, state: dict) -> None:
+    draft_file = resolve_state_file(exam_id, DRAFT_FILENAME)
+    draft_file.parent.mkdir(parents=True, exist_ok=True)
+    with draft_file.open("w", encoding="utf-8") as file:
         json.dump(state, file, indent=2)
 
 
-def clear_draft() -> None:
-    if DRAFT_FILE.exists():
-        DRAFT_FILE.unlink()
+def clear_draft(exam_id: str) -> None:
+    draft_file = resolve_state_file(exam_id, DRAFT_FILENAME)
+    if draft_file.exists():
+        draft_file.unlink()
 
 
-def load_question_pots(all_question_ids: set[int]) -> dict[str, set[int]]:
+def load_question_pots(exam_id: str, all_question_ids: set[int]) -> dict[str, set[int]]:
     correct_ids: set[int] = set()
     incorrect_ids: set[int] = set()
 
-    if POTS_FILE.exists():
-        with POTS_FILE.open("r", encoding="utf-8") as file:
+    pots_file = resolve_state_file(exam_id, POTS_FILENAME)
+    incorrect_file = resolve_state_file(exam_id, INCORRECT_FILENAME)
+
+    if pots_file.exists():
+        with pots_file.open("r", encoding="utf-8") as file:
             payload = json.load(file)
         correct_ids = {int(qid) for qid in payload.get("correct_ids", [])}
         incorrect_ids = {int(qid) for qid in payload.get("incorrect_ids", [])}
-    elif INCORRECT_FILE.exists():
+    elif incorrect_file.exists():
         # Backward compatibility: bootstrap pots from legacy incorrect bank.
-        with INCORRECT_FILE.open("r", encoding="utf-8") as file:
+        with incorrect_file.open("r", encoding="utf-8") as file:
             payload = json.load(file)
         incorrect_ids = {int(qid) for qid in payload.get("question_ids", [])}
 
@@ -123,15 +211,16 @@ def load_question_pots(all_question_ids: set[int]) -> dict[str, set[int]]:
     }
 
 
-def save_question_pots(pots: dict[str, set[int]]) -> None:
-    POTS_FILE.parent.mkdir(parents=True, exist_ok=True)
+def save_question_pots(exam_id: str, pots: dict[str, set[int]]) -> None:
+    pots_file = resolve_state_file(exam_id, POTS_FILENAME)
+    pots_file.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "correct_ids": sorted(pots.get("correct", set())),
         "incorrect_ids": sorted(pots.get("incorrect", set())),
         "correct_count": len(pots.get("correct", set())),
         "incorrect_count": len(pots.get("incorrect", set())),
     }
-    with POTS_FILE.open("w", encoding="utf-8") as file:
+    with pots_file.open("w", encoding="utf-8") as file:
         json.dump(payload, file, indent=2)
 
 
@@ -424,12 +513,17 @@ def build_balanced_exam_questions(questions: list[dict], exam_size: int) -> list
 
 @app.route("/")
 def index():
-    question_bank = load_question_bank()
+    exams = discover_exams()
+    if not exams:
+        raise FileNotFoundError("No exam definitions found. Add data/exams/<exam-id>/questions.json.")
+
+    exam_id = resolve_exam_id(exams)
+    question_bank = load_question_bank(exam_id, exams)
     questions = question_bank["questions"]
     all_ids = {q["id"] for q in questions}
-    pots = load_question_pots(all_ids)
+    pots = load_question_pots(exam_id, all_ids)
     pot_membership = get_pot_membership(all_ids, pots)
-    all_results = load_results()
+    all_results = load_results(exam_id)
     recent_results = list(reversed(all_results[-MAX_RECENT_RESULTS:]))
     available_domains = sorted({q["domain"] for q in questions})
     available_difficulties = sorted({q["difficulty"] for q in questions})
@@ -444,7 +538,16 @@ def index():
         key=lambda origin: (origin_priority.get(origin, 99), origin),
     )
     error_message = request.args.get("error")
-    draft = load_draft()
+    draft = load_draft(exam_id)
+
+    exam_options = [
+        {
+            "id": item["id"],
+            "title": item["exam_name"],
+            "question_count": item["question_count"],
+        }
+        for item in exams.values()
+    ]
 
     draft_summary = None
     if draft and draft.get("question_ids"):
@@ -476,6 +579,10 @@ def index():
 
     return render_template(
         "index.html",
+        page_title=f"{question_bank['exam_name']} Mock Exam",
+        selected_exam_id=exam_id,
+        selected_exam_name=question_bank["exam_name"],
+        exam_options=exam_options,
         stats=stats,
         recent_results=recent_results,
         passing_percent=PASSING_PERCENT,
@@ -491,11 +598,16 @@ def index():
 
 @app.post("/exam/start")
 def start_exam():
-    question_bank = load_question_bank()
+    exams = discover_exams()
+    if not exams:
+        return redirect(url_for("index", error="No exams configured."))
+
+    exam_id = resolve_exam_id(exams)
+    question_bank = load_question_bank(exam_id, exams)
     questions = question_bank["questions"]
     question_lookup = {q["id"]: q for q in questions}
     all_ids = {q["id"] for q in questions}
-    pots = load_question_pots(all_ids)
+    pots = load_question_pots(exam_id, all_ids)
     pot_membership = get_pot_membership(all_ids, pots)
     selected_pots = {p.lower() for p in request.form.getlist("pots")}
     allowed_pots = {"unseen", "correct", "incorrect"}
@@ -536,6 +648,7 @@ def start_exam():
             url_for(
                 "index",
                 error=message,
+                exam=exam_id,
             )
         )
 
@@ -558,18 +671,25 @@ def start_exam():
             "difficulties": sorted(selected_difficulties),
             "origins": sorted(selected_origins),
         },
+        "exam_id": exam_id,
+        "exam_name": question_bank["exam_name"],
     }
     set_exam_state(exam_state)
-    save_draft(exam_state)
+    save_draft(exam_id, exam_state)
 
     return redirect(url_for("exam_question", index=1))
 
 
 @app.get("/exam/resume")
 def resume_exam():
-    draft = load_draft()
+    exams = discover_exams()
+    if not exams:
+        return redirect(url_for("index", error="No exams configured."))
+
+    exam_id = resolve_exam_id(exams)
+    draft = load_draft(exam_id)
     if not draft or not draft.get("question_ids"):
-        return redirect(url_for("index", error="No saved draft exam found."))
+        return redirect(url_for("index", error="No saved draft exam found.", exam=exam_id))
 
     set_exam_state(draft)
     resume_index = int(draft.get("current_index") or compute_resume_index(draft["question_ids"], draft.get("answers", {})))
@@ -579,18 +699,21 @@ def resume_exam():
 
 @app.post("/exam/discard")
 def discard_exam():
-    clear_draft()
+    exams = discover_exams()
+    exam_id = resolve_exam_id(exams) if exams else DEFAULT_EXAM_ID
+    clear_draft(exam_id)
     session.pop("active_exam", None)
-    return redirect(url_for("index"))
+    return redirect(url_for("index", exam=exam_id))
 
 
 @app.route("/exam/<int:index>", methods=["GET", "POST"])
 def exam_question(index: int):
     exam_state = get_exam_state()
+    exam_id = exam_state.get("exam_id", session.get("selected_exam_id", DEFAULT_EXAM_ID))
     question_ids = exam_state.get("question_ids", [])
 
     if not question_ids:
-        return redirect(url_for("index"))
+        return redirect(url_for("index", exam=exam_id))
 
     if exam_state.get("finished"):
         return redirect(url_for("exam_result"))
@@ -598,7 +721,11 @@ def exam_question(index: int):
     if index < 1 or index > len(question_ids):
         return redirect(url_for("exam_question", index=1))
 
-    question_bank = load_question_bank()
+    exams = discover_exams()
+    if exam_id not in exams:
+        return redirect(url_for("index", error="Selected exam no longer exists."))
+
+    question_bank = load_question_bank(exam_id, exams)
     lookup = build_question_lookup(question_bank["questions"])
 
     current_qid = question_ids[index - 1]
@@ -619,33 +746,33 @@ def exam_question(index: int):
                 exam_state.setdefault("revealed", {})[str(current_qid)] = True
             exam_state["current_index"] = index
             set_exam_state(exam_state)
-            save_draft(exam_state)
+            save_draft(exam_id, exam_state)
             return redirect(url_for("exam_question", index=index))
 
         if action == "prev":
             prev_index = max(1, index - 1)
             exam_state["current_index"] = prev_index
             set_exam_state(exam_state)
-            save_draft(exam_state)
+            save_draft(exam_id, exam_state)
             return redirect(url_for("exam_question", index=prev_index))
 
         if action == "submit":
             exam_state["current_index"] = index
             set_exam_state(exam_state)
-            save_draft(exam_state)
+            save_draft(exam_id, exam_state)
             return redirect(url_for("submit_exam"))
 
         if mode == "practice" and not is_revealed:
             exam_state.setdefault("revealed", {})[str(current_qid)] = True
             exam_state["current_index"] = index
             set_exam_state(exam_state)
-            save_draft(exam_state)
+            save_draft(exam_id, exam_state)
             return redirect(url_for("exam_question", index=index))
 
         next_index = min(len(question_ids), index + 1)
         exam_state["current_index"] = next_index
         set_exam_state(exam_state)
-        save_draft(exam_state)
+        save_draft(exam_id, exam_state)
         return redirect(url_for("exam_question", index=next_index))
 
     selected_answer = exam_state.get("answers", {}).get(str(current_qid))
@@ -658,7 +785,7 @@ def exam_question(index: int):
 
     exam_state["current_index"] = index
     set_exam_state(exam_state)
-    save_draft(exam_state)
+    save_draft(exam_id, exam_state)
 
     practice_progress = (
         compute_practice_progress(exam_state, lookup) if mode == "practice" else None
@@ -666,6 +793,9 @@ def exam_question(index: int):
 
     return render_template(
         "exam.html",
+        page_title=f"{question_bank['exam_name']} Mock Exam",
+        selected_exam_id=exam_id,
+        selected_exam_name=question_bank["exam_name"],
         question=current_question,
         index=index,
         total=len(question_ids),
@@ -684,19 +814,24 @@ def exam_question(index: int):
 @app.get("/exam/submit")
 def submit_exam():
     exam_state = get_exam_state()
+    exam_id = exam_state.get("exam_id", session.get("selected_exam_id", DEFAULT_EXAM_ID))
     question_ids = exam_state.get("question_ids", [])
 
     if not question_ids:
-        return redirect(url_for("index"))
+        return redirect(url_for("index", exam=exam_id))
 
-    question_bank = load_question_bank()
+    exams = discover_exams()
+    if exam_id not in exams:
+        return redirect(url_for("index", error="Selected exam no longer exists."))
+
+    question_bank = load_question_bank(exam_id, exams)
     lookup = build_question_lookup(question_bank["questions"])
 
     score = 0
     review = []
     answers = exam_state.get("answers", {})
     all_ids = {q["id"] for q in question_bank["questions"]}
-    pots = load_question_pots(all_ids)
+    pots = load_question_pots(exam_id, all_ids)
     selected_pots = exam_state.get("pots", ["unseen", "correct", "incorrect"])
 
     for qid in question_ids:
@@ -739,7 +874,7 @@ def submit_exam():
             pots["incorrect"].add(qid)
             pots["correct"].discard(qid)
 
-    save_question_pots(pots)
+    save_question_pots(exam_id, pots)
 
     total_questions = len(question_ids)
     score_percent = (score / total_questions * 100) if total_questions else 0.0
@@ -759,14 +894,16 @@ def submit_exam():
         "passed": passed,
         "settings": exam_state.get("settings", {}),
         "pots": selected_pots,
+        "exam_id": exam_id,
+        "exam_name": question_bank["exam_name"],
         "review": review,
     }
 
-    all_results = load_results()
+    all_results = load_results(exam_id)
     all_results.append(result_record)
     all_results = all_results[-MAX_RECENT_RESULTS:]
-    save_results(all_results)
-    clear_draft()
+    save_results(exam_id, all_results)
+    clear_draft(exam_id)
 
     exam_state["finished"] = True
     exam_state["result_id"] = result_record["id"]
@@ -778,11 +915,12 @@ def submit_exam():
 @app.get("/exam/result")
 def exam_result():
     exam_state = get_exam_state()
+    exam_id = exam_state.get("exam_id", session.get("selected_exam_id", DEFAULT_EXAM_ID))
     result_id = exam_state.get("result_id")
     result = None
 
     if result_id:
-        all_results = load_results()
+        all_results = load_results(exam_id)
         for item in reversed(all_results):
             if item.get("id") == result_id:
                 result = item
@@ -793,10 +931,13 @@ def exam_result():
         result = exam_state.get("result")
 
     if not result:
-        return redirect(url_for("index"))
+        return redirect(url_for("index", exam=exam_id))
 
     return render_template(
         "result.html",
+        page_title=f"{result.get('exam_name', 'Mock Exam')} Result",
+        selected_exam_id=exam_id,
+        selected_exam_name=result.get("exam_name", "Mock Exam"),
         result=result,
         passing_percent=PASSING_PERCENT,
     )
@@ -804,10 +945,12 @@ def exam_result():
 
 @app.post("/stats/reset")
 def reset_stats():
-    save_results([])
-    clear_draft()
+    exams = discover_exams()
+    exam_id = resolve_exam_id(exams) if exams else DEFAULT_EXAM_ID
+    save_results(exam_id, [])
+    clear_draft(exam_id)
     session.pop("active_exam", None)
-    return redirect(url_for("index"))
+    return redirect(url_for("index", exam=exam_id))
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 {% block content %}
 <section class="card entrance">
   <div class="exam-header">
-    <h1>Question {{ index }} of {{ total }}</h1>
+    <h1>{{ selected_exam_name }}: Question {{ index }} of {{ total }}</h1>
     <p>
       {{ answered_count }} answered | {{ mode|title }} mode |
       Pots: {{ selected_pots|join(', ')|title }}

@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="card entrance">
-  <h1>Exam Result</h1>
+  <h1>{{ result.exam_name or selected_exam_name }} Result</h1>
   <p class="muted">Pots: {{ (result.pots or ['unseen','correct','incorrect'])|join(', ')|title }}</p>
   <p class="score-pill {{ 'pass' if result.passed else 'fail' }}">
     {{ result.score }} / {{ result.total }} ({{ result.score_percent }}%) - {{ 'PASS' if result.passed else 'FAIL' }}
   </p>
   <p class="muted">Passing threshold: {{ passing_percent }}% ({{ result.passing_required }} / {{ result.total }})</p>
   <p class="muted">Answered: {{ result.answered }} / {{ result.total }}</p>
-  <a class="btn-primary inline-block" href="{{ url_for('index') }}">Back to Dashboard</a>
+  <a class="btn-primary inline-block" href="{{ url_for('index', exam=selected_exam_id) }}">Back to Dashboard</a>
 </section>
 
 <section class="card entrance delayed">

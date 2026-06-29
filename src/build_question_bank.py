@@ -180,7 +180,7 @@ TOPIC_DISTRACTOR_LIBRARY = {
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
-OUTPUT_FILE = Path(__file__).resolve().parent / "data" / "question_bank.json"
+OUTPUT_FILE = DATA_DIR / "exams" / "snowpro-core" / "questions.json"
 SOURCE_FILES = sorted(DATA_DIR.glob("mock-exam-*.md"))
 
 QUESTION_BLOCK_PATTERN = re.compile(

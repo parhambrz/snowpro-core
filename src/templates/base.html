@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SnowPro Core Mock Exam</title>
+    <title>{{ page_title or 'Mock Exam Lab' }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,7 +17,7 @@
     <div class="bg-shape bg-shape-b"></div>
     <main class="page-shell">
       <header class="topbar">
-        <a class="brand" href="{{ url_for('index') }}">SnowPro Core Mock Lab</a>
+        <a class="brand" href="{{ url_for('index', exam=selected_exam_id) }}">{{ selected_exam_name or 'Mock Exam Lab' }}</a>
       </header>
       {% block content %}{% endblock %}
     </main>

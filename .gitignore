@@ -26,6 +26,10 @@ src/data/exam_results.json
 src/data/exam_draft.json
 src/data/incorrect_questions.json
 src/data/question_pots.json
+src/data/exams/*/exam_results.json
+src/data/exams/*/exam_draft.json
+src/data/exams/*/incorrect_questions.json
+src/data/exams/*/question_pots.json
 
 # Generated intermediate question bank (not source of truth)
 src/data/question_bank.json

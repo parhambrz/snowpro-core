@@ -73,6 +73,33 @@ h3 {
   line-height: 1.55;
 }
 
+.exam-picker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.exam-picker-row h1 {
+  margin: 0;
+}
+
+.exam-switcher-form {
+  display: grid;
+  gap: 0.3rem;
+  min-width: min(360px, 100%);
+}
+
+.exam-switcher-form select {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  padding: 0.55rem 0.65rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+
 .alert-error {
   border: 1px solid rgba(162, 52, 43, 0.45);
   background: rgba(162, 52, 43, 0.1);
@@ -770,5 +797,10 @@ h3 {
     min-width: 100%;
     max-width: 100%;
     max-height: 200px;
+  }
+
+  .exam-switcher-form {
+    min-width: 0;
+    width: 100%;
   }
 }

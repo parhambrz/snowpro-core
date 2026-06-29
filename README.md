@@ -1,10 +1,11 @@
-# SnowPro Core Mock Exam App
+# Multi-Course Mock Exam App
 
-A Flask web app for practicing Snowflake SnowPro Core mock exams.
+A Flask web app for practicing multiple certification mock exams (currently SnowPro Core and Azure DP-900 sample questions).
 
 ## Features
 
-- Random mock exams from the question bank (up to 100 questions per attempt)
+- Switchable exam catalog from the dashboard
+- Random mock exams from the selected question bank (up to 100 questions per attempt)
 - Domain and difficulty filters
 - Two study sources:
   - Full Bank
@@ -19,7 +20,7 @@ A Flask web app for practicing Snowflake SnowPro Core mock exams.
 
 ## Project Structure
 
-- `data/snowpro_core_questions.json`: main read-only question bank
+- `data/exams/<exam-id>/questions.json`: read-only question banks per exam
 - `src/app.py`: Flask app
 - `src/templates/`: HTML templates
 - `src/static/`: CSS
@@ -77,13 +78,32 @@ FLASK_HOST=0.0.0.0 FLASK_PORT=5000 FLASK_DEBUG=1 python app.py
 
 ## Notes About App Data
 
-These files are generated at runtime inside `src/data/`:
+These files are generated at runtime inside `src/data/exams/<exam-id>/`:
 
 - `exam_results.json`
 - `exam_draft.json`
 - `incorrect_questions.json`
+- `question_pots.json`
 
 They are ignored by Git via `.gitignore`.
+
+## Adding Another Course
+
+1. Create a new folder: `data/exams/<new-exam-id>/`
+2. Add `questions.json` in the same format as existing exams.
+3. Start the app and select the new exam from the dashboard dropdown.
+
+Runtime state for that course will be isolated under `src/data/exams/<new-exam-id>/`.
+
+## Rebuild SnowPro Question Bank (Optional)
+
+From `src` directory:
+
+```bash
+python build_question_bank.py
+```
+
+This writes to `data/exams/snowpro-core/questions.json`.
 
 ## Quick GitHub Commit Flow
 

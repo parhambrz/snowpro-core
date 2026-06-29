@@ -1,7 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="card entrance settings-card">
-  <h1>Train Like the Real Snowflake Exam</h1>
+  <div class="exam-picker-row">
+    <h1>{{ selected_exam_name }} Mock Exam</h1>
+    <form method="get" action="{{ url_for('index') }}" class="exam-switcher-form">
+      <label for="exam-select" class="muted">Exam</label>
+      <select id="exam-select" name="exam" onchange="this.form.submit()">
+        {% for exam in exam_options %}
+        <option value="{{ exam.id }}" {% if exam.id == selected_exam_id %}selected{% endif %}>
+          {{ exam.title }} ({{ exam.question_count }} questions)
+        </option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
   <p class="lead">
     Each attempt draws up to {{ exam_size }} questions from the question bank.
     Pass mark is {{ passing_percent }}% correct.
@@ -43,6 +55,7 @@
   </div>
 
   <form method="post" action="{{ url_for('start_exam') }}" class="config-form">
+    <input type="hidden" name="exam_id" value="{{ selected_exam_id }}" />
     <div class="settings-inline-row">
       <div class="filter-group mode-group">
         <details class="inline-dropdown mode-dropdown">
@@ -144,8 +157,9 @@
       {{ draft_summary.answered }} / {{ draft_summary.total }} answered.
     </p>
     <div class="draft-actions">
-      <a class="btn-secondary inline-action" href="{{ url_for('resume_exam') }}">Resume Draft</a>
+      <a class="btn-secondary inline-action" href="{{ url_for('resume_exam', exam=selected_exam_id) }}">Resume Draft</a>
       <form method="post" action="{{ url_for('discard_exam') }}">
+        <input type="hidden" name="exam_id" value="{{ selected_exam_id }}" />
         <button class="btn-danger" type="submit">Discard Draft</button>
       </form>
     </div>
@@ -176,6 +190,7 @@
   <h2>Statistics</h2>
   <p class="muted">This clears attempt history and resets dashboard statistics.</p>
   <form method="post" action="{{ url_for('reset_stats') }}">
+    <input type="hidden" name="exam_id" value="{{ selected_exam_id }}" />
     <button class="btn-danger" type="submit">Reset Statistics</button>
   </form>
 </section>
@@ -187,7 +202,7 @@
 
     const groups = document.querySelectorAll(".config-form .filter-group");
     const dropdowns = document.querySelectorAll(".config-form .inline-dropdown");
-    const settingsKey = "snowpro.examSettings.v1";
+    const settingsKey = "snowpro.examSettings.v1." + "{{ selected_exam_id }}";
 
     function getSavedSettings() {
       try {

@@ -1,0 +1,163 @@
+{
+  "examName": "Microsoft Azure Data Fundamentals (DP-900)",
+  "version": "0.1",
+  "totalQuestions": 10,
+  "domains": [
+    "Core Data Concepts",
+    "Relational Data in Azure",
+    "Non-Relational Data in Azure",
+    "Analytics Workloads in Azure"
+  ],
+  "questions": [
+    {
+      "id": 900001,
+      "domain": "Core Data Concepts",
+      "difficulty": "basic",
+      "origin": "AI generated",
+      "question": "Which term describes data with a predefined schema organized in rows and columns?",
+      "choices": {
+        "A": "Semi-structured data",
+        "B": "Relational data",
+        "C": "Streaming data",
+        "D": "Unstructured data"
+      },
+      "correctAnswer": "B",
+      "explanation": "Relational data is structured with a fixed schema and is typically stored in tables with rows and columns."
+    },
+    {
+      "id": 900002,
+      "domain": "Core Data Concepts",
+      "difficulty": "basic",
+      "origin": "AI generated",
+      "question": "What does ACID primarily describe in a database context?",
+      "choices": {
+        "A": "A cloud storage pricing model",
+        "B": "A set of properties for reliable transactions",
+        "C": "A data visualization technique",
+        "D": "A method for compressing data"
+      },
+      "correctAnswer": "B",
+      "explanation": "ACID stands for Atomicity, Consistency, Isolation, and Durability, which define reliable transaction behavior."
+    },
+    {
+      "id": 900003,
+      "domain": "Relational Data in Azure",
+      "difficulty": "basic",
+      "origin": "AI generated",
+      "question": "Which Azure service is a fully managed relational database based on Microsoft SQL Server?",
+      "choices": {
+        "A": "Azure Cosmos DB",
+        "B": "Azure Data Lake Storage",
+        "C": "Azure SQL Database",
+        "D": "Azure Event Hubs"
+      },
+      "correctAnswer": "C",
+      "explanation": "Azure SQL Database is the managed relational database service in Azure built on SQL Server engine capabilities."
+    },
+    {
+      "id": 900004,
+      "domain": "Relational Data in Azure",
+      "difficulty": "intermediate",
+      "origin": "AI generated",
+      "question": "Which Azure option is best when you need full SQL Server feature compatibility including SQL Agent?",
+      "choices": {
+        "A": "Azure SQL Database single database",
+        "B": "Azure SQL Managed Instance",
+        "C": "Azure Table Storage",
+        "D": "Azure Synapse serverless SQL pool"
+      },
+      "correctAnswer": "B",
+      "explanation": "Azure SQL Managed Instance provides near full SQL Server instance compatibility for migration scenarios."
+    },
+    {
+      "id": 900005,
+      "domain": "Non-Relational Data in Azure",
+      "difficulty": "basic",
+      "origin": "AI generated",
+      "question": "Which Azure service is globally distributed and supports multiple APIs for NoSQL workloads?",
+      "choices": {
+        "A": "Azure Cosmos DB",
+        "B": "Azure SQL Database",
+        "C": "Azure Database for PostgreSQL",
+        "D": "Azure SQL Managed Instance"
+      },
+      "correctAnswer": "A",
+      "explanation": "Azure Cosmos DB is a globally distributed NoSQL database service that supports several APIs such as SQL and MongoDB-compatible APIs."
+    },
+    {
+      "id": 900006,
+      "domain": "Non-Relational Data in Azure",
+      "difficulty": "basic",
+      "origin": "AI generated",
+      "question": "Which Azure storage option is optimized for large-scale unstructured files such as logs and media?",
+      "choices": {
+        "A": "Azure Blob Storage",
+        "B": "Azure SQL Database",
+        "C": "Azure Cache for Redis",
+        "D": "Azure Logic Apps"
+      },
+      "correctAnswer": "A",
+      "explanation": "Azure Blob Storage is designed for massive unstructured data storage including documents, media, and backup files."
+    },
+    {
+      "id": 900007,
+      "domain": "Analytics Workloads in Azure",
+      "difficulty": "intermediate",
+      "origin": "AI generated",
+      "question": "Which Azure service combines enterprise data warehousing with big data analytics?",
+      "choices": {
+        "A": "Azure Synapse Analytics",
+        "B": "Azure Key Vault",
+        "C": "Azure Monitor",
+        "D": "Azure API Management"
+      },
+      "correctAnswer": "A",
+      "explanation": "Azure Synapse Analytics unifies data integration, enterprise data warehousing, and big data analytics capabilities."
+    },
+    {
+      "id": 900008,
+      "domain": "Analytics Workloads in Azure",
+      "difficulty": "basic",
+      "origin": "AI generated",
+      "question": "In analytics, what is a dashboard primarily used for?",
+      "choices": {
+        "A": "Defining database indexes",
+        "B": "Managing role assignments",
+        "C": "Visualizing key metrics and trends",
+        "D": "Encrypting storage accounts"
+      },
+      "correctAnswer": "C",
+      "explanation": "Dashboards provide visual summaries of KPIs, trends, and operational metrics for decision making."
+    },
+    {
+      "id": 900009,
+      "domain": "Core Data Concepts",
+      "difficulty": "intermediate",
+      "origin": "AI generated",
+      "question": "What is the primary purpose of ETL in data engineering?",
+      "choices": {
+        "A": "Encrypt traffic between services",
+        "B": "Extract, transform, and load data for analysis",
+        "C": "Track source control history",
+        "D": "Configure user authentication"
+      },
+      "correctAnswer": "B",
+      "explanation": "ETL pipelines move and transform data from source systems into target analytical stores."
+    },
+    {
+      "id": 900010,
+      "domain": "Relational Data in Azure",
+      "difficulty": "basic",
+      "origin": "AI generated",
+      "question": "Which SQL language statement is most commonly used to retrieve data from a table?",
+      "choices": {
+        "A": "INSERT",
+        "B": "UPDATE",
+        "C": "SELECT",
+        "D": "DELETE"
+      },
+      "correctAnswer": "C",
+      "explanation": "SELECT is the standard SQL statement for querying and returning rows from tables or views."
+    }
+  ]
+}
