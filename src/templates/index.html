@@ -98,7 +98,7 @@
             {% for origin in available_origins %}
             <label class="check-item compact">
               <input type="checkbox" name="origins" value="{{ origin }}" />
-              <span>{{ origin }}</span>
+              <span>{{ origin }} ({{ origin_counts.get(origin, 0) }})</span>
             </label>
             {% endfor %}
           </div>

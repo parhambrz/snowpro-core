@@ -1,7 +1,7 @@
 {
   "examName": "SnowPro Core Certification (COF-C02)",
   "version": "1.1",
-  "totalQuestions": 598,
+  "totalQuestions": 698,
   "domains": [
     "Snowflake AI Data Cloud Features and Architecture",
     "Account Access and Security",
@@ -8980,6 +8980,1506 @@
       },
       "correctAnswer": "A",
       "explanation": "Replicating to another region/account and using failover groups maintains availability during a regional or account-level outage."
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Tasks, which option is correct?",
+      "choices": {
+        "A": "Use IF, ELSE, and CASE for conditional logic",
+        "B": "Recursion: JavaScript UDFs can refer to themselves recursively",
+        "C": "Tasks can be chained together into a Directed Acyclic Graph (DAG)",
+        "D": "Be stored in the same database and schema"
+      },
+      "correctAnswer": "D",
+      "explanation": "Be stored in the same database and schema.",
+      "id": 599
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Using Tasks with Streams is accurate?",
+      "choices": {
+        "A": "This combination of tasks and streams is ideal for implementing incremental ETL pipelines, where changes to a source table are tracked and processed continuously",
+        "B": "UDFs are distinct from stored procedures in that UDFs can be used directly within SQL queries, whereas stored procedures cannot be used as part of a SQL statement",
+        "C": "The result of querying a stream includes DML changes made to the source table, along with metadata such as the type of action (INSERT, UPDATE, DELETE)",
+        "D": "In addition to SQL and JavaScript, you can write UDFs in Python and Java. These languages offer more flexibility for complex logic and integrations"
+      },
+      "correctAnswer": "C",
+      "explanation": "The result of querying a stream includes DML changes made to the source table, along with metadata such as the type of action (INSERT, UPDATE, DELETE).",
+      "id": 600
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which option best describes Billing Overview?",
+      "choices": {
+        "A": "You can manually suspend or resume a warehouse using the ALTER WAREHOUSE command",
+        "B": "Use a persistent Virtual Warehouse for frequently accessed datasets to maximize cache hits",
+        "C": "On-demand pricing: You pay for what you use, calculated based on actual consumption",
+        "D": "Use larger warehouses only for workloads that require high concurrency or complex queries"
+      },
+      "correctAnswer": "C",
+      "explanation": "On-demand pricing: You pay for what you use, calculated based on actual consumption.",
+      "id": 601
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Compute Billing (Billed in Snowflake Credits) is accurate?",
+      "choices": {
+        "A": "Includes metadata management, query optimization, authentication, and other system activities running in the Cloud Services Layer",
+        "B": "Includes activities like query execution, data loading/unloading, and other operations performed by user-provisioned virtual warehouses",
+        "C": "Costs are predictable and typically a small percentage of the overall compute usage",
+        "D": "Unlike cloud services, these are billed based on the actual resources consumed for the operation"
+      },
+      "correctAnswer": "C",
+      "explanation": "Costs are predictable and typically a small percentage of the overall compute usage.",
+      "id": 602
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Data Storage and Transfer Billing (Billed by the Cloud Provider) is accurate?",
+      "choices": {
+        "A": "Storage: Costs are incurred for storing the materialized data",
+        "B": "The warehouse is stopped and does not consume credits",
+        "C": "Only account administrators can create and manage Resource Monitors",
+        "D": "Charges for data stored in Snowflake's centralized storage layer"
+      },
+      "correctAnswer": "D",
+      "explanation": "Charges for data stored in Snowflake's centralized storage layer.",
+      "id": 603
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Snowflake Scripting, which option is correct?",
+      "choices": {
+        "A": "Use IF, ELSE, and CASE for conditional logic",
+        "B": "Use cursors to iterate over result sets",
+        "C": "You can declare variables and assign values within procedural code",
+        "D": "Be stored in the same database and schema"
+      },
+      "correctAnswer": "A",
+      "explanation": "Use IF, ELSE, and CASE for conditional logic.",
+      "id": 604
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which option best describes Snowpark?",
+      "choices": {
+        "A": "Operations on DataFrames are not executed immediately. Execution only occurs when an action like collect() or write() is called",
+        "B": "All transformations (e.g., select, filter, join) are sent to Snowflake for execution using Snowflake's compute engine",
+        "C": "Code can be written in Python, Scala, or Java, enabling flexibility for developers with diverse skill sets",
+        "D": "Ease of Use: The DataFrame API provides a familiar and intuitive interface for data manipulation"
+      },
+      "correctAnswer": "B",
+      "explanation": "All transformations (e.g., select, filter, join) are sent to Snowflake for execution using Snowflake's compute engine.",
+      "id": 605
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which statement about Overview is accurate?",
+      "choices": {
+        "A": "Data is automatically stored in micro-partitions based on query patterns",
+        "B": "Credits are consumed while the warehouse is in this state",
+        "C": "Additional compute resources are used for queued and new queries",
+        "D": "Warehouse configuration (e.g., size, scaling policy) can be changed on-the-fly"
+      },
+      "correctAnswer": "D",
+      "explanation": "Warehouse configuration (e.g., size, scaling policy) can be changed on-the-fly.",
+      "id": 606
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Warehouse State and Properties is accurate?",
+      "choices": {
+        "A": "The warehouse is stopped and does not consume credits",
+        "B": "Resizing can occur while the warehouse is running",
+        "C": "Credits are consumed while the warehouse is in this state",
+        "D": "The warehouse is running and can execute queries"
+      },
+      "correctAnswer": "C",
+      "explanation": "Credits are consumed while the warehouse is in this state.",
+      "id": 607
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Managing Warehouse States?",
+      "choices": {
+        "A": "By default, a warehouse is started upon creation. To create a warehouse that starts in a suspended state, use the INITIALLY_SUSPENDED parameter",
+        "B": "A multi-cluster warehouse is a group of Virtual Warehouses that can automatically scale in and out based on query demand and concurrency levels",
+        "C": "When a query is queued, the system estimates whether there is enough query load to keep a new warehouse busy for 6 minutes",
+        "D": "A visual tool available in the Snowflake Web UI that allows users to view query execution plans and analyze performance bottlenecks"
+      },
+      "correctAnswer": "A",
+      "explanation": "By default, a warehouse is started upon creation. To create a warehouse that starts in a suspended state, use the INITIALLY_SUSPENDED parameter.",
+      "id": 608
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Warehouse Size and Billing, which option is correct?",
+      "choices": {
+        "A": "The first 60 seconds are always billed, followed by per-second billing",
+        "B": "Virtual Warehouses can be created in 10 t-shirt sizes ranging from X-SMALL to 6X-LARGE",
+        "C": "Billing starts when a warehouse is started, even if no queries are being executed",
+        "D": "Choosing the right size is typically determined by testing a representative query or workload"
+      },
+      "correctAnswer": "C",
+      "explanation": "Billing starts when a warehouse is started, even if no queries are being executed.",
+      "id": 609
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Resource Monitors, which option is correct?",
+      "choices": {
+        "A": "Resource Monitors are objects used to set credit usage limits on Virtual Warehouses or accounts",
+        "B": "Limits can be set for a specified interval (e.g., daily, weekly, or monthly) or a specific date range",
+        "C": "Resource Monitors are a proactive tool to manage and control credit usage, avoiding unplanned costs",
+        "D": "Specifies the time (in seconds) a SQL statement can remain queued on a warehouse before it is aborted"
+      },
+      "correctAnswer": "B",
+      "explanation": "Limits can be set for a specified interval (e.g., daily, weekly, or monthly) or a specific date range.",
+      "id": 610
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Best Practices for Warehouse Size and Resource Monitors?",
+      "choices": {
+        "A": "Data is spilled to the local SSDs of the Virtual Warehouse",
+        "B": "Use larger warehouses only for workloads that require high concurrency or complex queries",
+        "C": "The first 60 seconds are always billed, followed by per-second billing",
+        "D": "Use Resource Monitors to set credit limits and enforce cost controls"
+      },
+      "correctAnswer": "D",
+      "explanation": "Use Resource Monitors to set credit limits and enforce cost controls.",
+      "id": 611
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Scaling Up a Virtual Warehouse is accurate?",
+      "choices": {
+        "A": "Credits are consumed while the warehouse is in this state",
+        "B": "Use appropriately sized warehouses for queries with high memory requirements",
+        "C": "Additional compute resources are used for queued and new queries",
+        "D": "Virtual Warehouses can be manually resized through the Snowflake UI or SQL commands"
+      },
+      "correctAnswer": "C",
+      "explanation": "Additional compute resources are used for queued and new queries.",
+      "id": 612
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Scaling Out: Multi-Cluster Warehouses, which option is correct?",
+      "choices": {
+        "A": "If MIN_CLUSTER_COUNT and MAX_CLUSTER_COUNT are set to different values, the multi-cluster warehouse will scale in and out dynamically based on demand",
+        "B": "When a query is queued, the system estimates whether there is enough query load to keep a new warehouse busy for 6 minutes",
+        "C": "A multi-cluster warehouse is a group of Virtual Warehouses that can automatically scale in and out based on query demand and concurrency levels",
+        "D": "If a table is clustered by a date column, queries filtering on a date range will scan fewer partitions, reducing query execution time"
+      },
+      "correctAnswer": "C",
+      "explanation": "A multi-cluster warehouse is a group of Virtual Warehouses that can automatically scale in and out based on query demand and concurrency levels.",
+      "id": 613
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Scaling Policies, which option is correct?",
+      "choices": {
+        "A": "If this condition is met for 2 consecutive minutes, the least busy warehouse is marked for shutdown",
+        "B": "Every minute, a background process checks if the load on the least busy warehouse can be redistributed",
+        "C": "If this condition is met for 6 consecutive minutes, the least busy warehouse is marked for shutdown",
+        "D": "Scaling up a Virtual Warehouse involves resizing it to a larger size, which can improve query performance"
+      },
+      "correctAnswer": "B",
+      "explanation": "Every minute, a background process checks if the load on the least busy warehouse can be redistributed.",
+      "id": 614
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Credit Consumption in Multi-Cluster Warehouses, which option is correct?",
+      "choices": {
+        "A": "Since multi-cluster warehouses dynamically scale based on demand, the actual credit usage is usually a fraction of the maximum consumption",
+        "B": "Costs are billed based on the amount of data stored and the duration of storage (per TB per month)",
+        "C": "If MIN_CLUSTER_COUNT and MAX_CLUSTER_COUNT are set to different values, the multi-cluster warehouse will scale in and out dynamically based on demand",
+        "D": "The total credit cost of a multi-cluster warehouse is the sum of all the individual running warehouses in the group"
+      },
+      "correctAnswer": "A",
+      "explanation": "Since multi-cluster warehouses dynamically scale based on demand, the actual credit usage is usually a fraction of the maximum consumption.",
+      "id": 615
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Concurrency Behavior Properties, which option is correct?",
+      "choices": {
+        "A": "Whether the query plan can be parallelized",
+        "B": "Additional compute power is provided",
+        "C": "The warehouse is running and can execute queries",
+        "D": "The warehouse is actively changing its size"
+      },
+      "correctAnswer": "B",
+      "explanation": "Additional compute power is provided.",
+      "id": 616
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Query Acceleration Service, which option is correct?",
+      "choices": {
+        "A": "If a table is clustered by a date column, queries filtering on a date range will scan fewer partitions, reducing query execution time",
+        "B": "When a query is queued, the system estimates whether there is enough query load to keep a new warehouse busy for 6 minutes",
+        "C": "These query fragments are then offloaded to dynamically provisioned serverless compute resources, reducing the load on the main warehouse and accelerating the query execution",
+        "D": "A multi-cluster warehouse is a group of Virtual Warehouses that can automatically scale in and out based on query demand and concurrency levels"
+      },
+      "correctAnswer": "C",
+      "explanation": "These query fragments are then offloaded to dynamically provisioned serverless compute resources, reducing the load on the main warehouse and accelerating the query execution.",
+      "id": 617
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which statement about Query Acceleration Eligibility is accurate?",
+      "choices": {
+        "A": "At least part of the query plan must be able to run in parallel",
+        "B": "To automatically resume a warehouse when a query is submitted, use the AUTO_RESUME parameter",
+        "C": "The query must involve sufficient partitions to justify the use of additional compute resources",
+        "D": "To automatically suspend a warehouse after a period of inactivity, use the AUTO_SUSPEND parameter"
+      },
+      "correctAnswer": "A",
+      "explanation": "At least part of the query plan must be able to run in parallel.",
+      "id": 618
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which statement about Verifying Query Acceleration Eligibility is accurate?",
+      "choices": {
+        "A": "This system view provides details about whether a query is eligible for query acceleration",
+        "B": "Choosing the right size is typically determined by testing a representative query or workload",
+        "C": "To automatically resume a warehouse when a query is submitted, use the AUTO_RESUME parameter",
+        "D": "Billing starts when a warehouse is started, even if no queries are being executed"
+      },
+      "correctAnswer": "A",
+      "explanation": "This system view provides details about whether a query is eligible for query acceleration.",
+      "id": 619
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Analytics Tools, which option is correct?",
+      "choices": {
+        "A": "By default, a warehouse is started upon creation. To create a warehouse that starts in a suspended state, use the INITIALLY_SUSPENDED parameter",
+        "B": "A visual tool available in the Snowflake Web UI that allows users to view query execution plans and analyze performance bottlenecks",
+        "C": "If MIN_CLUSTER_COUNT and MAX_CLUSTER_COUNT are set to different values, the multi-cluster warehouse will scale in and out dynamically based on demand",
+        "D": "Use the execution graph to understand how each step in the query plan contributes to overall execution time"
+      },
+      "correctAnswer": "B",
+      "explanation": "A visual tool available in the Snowflake Web UI that allows users to view query execution plans and analyze performance bottlenecks.",
+      "id": 620
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For SQL Tuning, which option is correct?",
+      "choices": {
+        "A": "When a query is queued, a new warehouse is added immediately",
+        "B": "Use WHERE and JOIN clauses to limit the amount of data retrieved and processed",
+        "C": "Avoid nested queries or unoptimized joins when simpler alternatives are available",
+        "D": "Cache is cleared when the warehouse is resized, suspended, or restarted"
+      },
+      "correctAnswer": "C",
+      "explanation": "Avoid nested queries or unoptimized joins when simpler alternatives are available.",
+      "id": 621
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Caching?",
+      "choices": {
+        "A": "Results are invalidated if the underlying data changes",
+        "B": "Subsequent identical queries (with the same context) can reuse the cached results, avoiding re-execution",
+        "C": "Data is spilled to the local SSDs of the Virtual Warehouse",
+        "D": "Cache is cleared when the warehouse is resized, suspended, or restarted"
+      },
+      "correctAnswer": "D",
+      "explanation": "Cache is cleared when the warehouse is resized, suspended, or restarted.",
+      "id": 622
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which option best describes Clustering and Pruning?",
+      "choices": {
+        "A": "Additional compute resources are used for queued and new queries",
+        "B": "Credits are consumed while the warehouse is in this state",
+        "C": "Warehouse configuration (e.g., size, scaling policy) can be changed on-the-fly",
+        "D": "Data is automatically stored in micro-partitions based on query patterns"
+      },
+      "correctAnswer": "D",
+      "explanation": "Data is automatically stored in micro-partitions based on query patterns.",
+      "id": 623
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Search Optimization Service, which option is correct?",
+      "choices": {
+        "A": "Unlike cloud services, these are billed based on the actual resources consumed for the operation",
+        "B": "The Search Optimization Service is designed to improve query performance for point lookups or queries with selective filters",
+        "C": "The service creates and maintains additional indexing-like metadata to enable faster lookups",
+        "D": "It is optional and specifically useful for queries that access small subsets of large tables"
+      },
+      "correctAnswer": "D",
+      "explanation": "It is optional and specifically useful for queries that access small subsets of large tables.",
+      "id": 624
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which option best describes Total Micro-Partitions vs. Scanned Micro-Partitions?",
+      "choices": {
+        "A": "If this condition is met for 2 consecutive minutes, the least busy warehouse is marked for shutdown",
+        "B": "Micro-partitions are optimized for storage and query performance (e.g., range metadata is stored for fast partition pruning)",
+        "C": "Snowflake uses partition pruning to minimize the number of micro-partitions scanned, based on query filters and clustering",
+        "D": "Optimization: Fewer micro-partitions scanned indicates better query performance, as irrelevant partitions are skipped"
+      },
+      "correctAnswer": "B",
+      "explanation": "Micro-partitions are optimized for storage and query performance (e.g., range metadata is stored for fast partition pruning).",
+      "id": 625
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Percentage Scanned from the Data Cache is accurate?",
+      "choices": {
+        "A": "The Search Optimization Service is designed to improve query performance for point lookups or queries with selective filters",
+        "B": "Use the execution graph to understand how each step in the query plan contributes to overall execution time",
+        "C": "Specifies the time (in seconds) a SQL statement can remain queued on a warehouse before it is aborted",
+        "D": "A high percentage from the cache is desirable, as it means fewer expensive reads from the storage layer"
+      },
+      "correctAnswer": "D",
+      "explanation": "A high percentage from the cache is desirable, as it means fewer expensive reads from the storage layer.",
+      "id": 626
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Spilling to Local or Remote Storage, which option is correct?",
+      "choices": {
+        "A": "Data is spilled to the local SSDs of the Virtual Warehouse",
+        "B": "Cache is cleared when the warehouse is resized, suspended, or restarted",
+        "C": "Use appropriately sized warehouses for queries with high memory requirements",
+        "D": "If local storage is insufficient, Snowflake spills data to its central storage layer"
+      },
+      "correctAnswer": "A",
+      "explanation": "Data is spilled to the local SSDs of the Virtual Warehouse.",
+      "id": 627
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about High-Level Overview is accurate?",
+      "choices": {
+        "A": "Schemas can also be cloned from existing schemas",
+        "B": "Includes all features of the Business Critical edition",
+        "C": "Both standard and materialized views can be secure",
+        "D": "Data stored in databases, schemas, tables, and columns"
+      },
+      "correctAnswer": "D",
+      "explanation": "Data stored in databases, schemas, tables, and columns.",
+      "id": 628
+    },
+    {
+      "domain": "Data Protection and Data Sharing",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Multi-Cluster Shared Data Architecture, which option is correct?",
+      "choices": {
+        "A": "Storage and compute are tightly coupled",
+        "B": "Designed for use cases where fail-safe is not required",
+        "C": "Scaling still limited because shuffling data between nodes is expensive",
+        "D": "Data is also encrypted at rest and in transit"
+      },
+      "correctAnswer": "C",
+      "explanation": "Scaling still limited because shuffling data between nodes is expensive.",
+      "id": 629
+    },
+    {
+      "domain": "Data Protection and Data Sharing",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Storage Layer, which option is correct?",
+      "choices": {
+        "A": "This columnar structure also improves data compression, as columns are more likely to have similar values",
+        "B": "Data is also encrypted at rest and in transit",
+        "C": "Both structured and semi-structured data files can be loaded and stored in Snowflake",
+        "D": "Data is not directly accessible in the underlying blob storage, only via SQL commands"
+      },
+      "correctAnswer": "C",
+      "explanation": "Both structured and semi-structured data files can be loaded and stored in Snowflake.",
+      "id": 630
+    },
+    {
+      "domain": "Data Protection and Data Sharing",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Compute Layer (Query Processing), which option is correct?",
+      "choices": {
+        "A": "Storage is billed by how much data is stored, based on a flat rate per TB calculated monthly",
+        "B": "A virtual warehouse is a named abstraction for a cluster of cloud-based compute instances that Snowflake provisions and manages",
+        "C": "Only the columns needed for a query are read, reducing the amount of data read from disk (read optimization)",
+        "D": "The underlying nodes of a virtual warehouse cooperate in a similar way to a shared-nothing compute cluster, making use of local caching"
+      },
+      "correctAnswer": "B",
+      "explanation": "A virtual warehouse is a named abstraction for a cluster of cloud-based compute instances that Snowflake provisions and manages.",
+      "id": 631
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Editions and Features is accurate?",
+      "choices": {
+        "A": "Includes all features of the Enterprise edition",
+        "B": "Includes all features of the Standard edition",
+        "C": "Includes all features of the Business Critical edition",
+        "D": "Data stored in databases, schemas, tables, and columns"
+      },
+      "correctAnswer": "C",
+      "explanation": "Includes all features of the Business Critical edition.",
+      "id": 632
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Object Model, which option is correct?",
+      "choices": {
+        "A": "Table: Logical representation of the stored data",
+        "B": "Data stored in databases, schemas, tables, and columns",
+        "C": "Includes all features of the Standard edition",
+        "D": "Includes all features of the Enterprise edition"
+      },
+      "correctAnswer": "A",
+      "explanation": "Table: Logical representation of the stored data.",
+      "id": 633
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Organization, which option is correct?",
+      "choices": {
+        "A": "Region: Each account is provisioned in a single geographic region (consider regulatory restrictions when moving data between regions)",
+        "B": "Enables querying of data outside Snowflake, e.g., an Azure container, by overlaying a structure on this external data",
+        "C": "Cloud Platform: Each account is hosted on a single cloud provider (AWS, GCP, or Azure)",
+        "D": "Set up and administer Snowflake features that make use of multiple accounts, e.g., database replication and failover"
+      },
+      "correctAnswer": "D",
+      "explanation": "Set up and administer Snowflake features that make use of multiple accounts, e.g., database replication and failover.",
+      "id": 634
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Account, which option is correct?",
+      "choices": {
+        "A": "Cloud Platform: Each account is hosted on a single cloud provider (AWS, GCP, or Azure)",
+        "B": "Set up and administer Snowflake features that make use of multiple accounts, e.g., database replication and failover",
+        "C": "Region: Each account is provisioned in a single geographic region (consider regulatory restrictions when moving data between regions)",
+        "D": "Edition: Each account is created with a single Snowflake edition (can be updated later)"
+      },
+      "correctAnswer": "A",
+      "explanation": "Cloud Platform: Each account is hosted on a single cloud provider (AWS, GCP, or Azure).",
+      "id": 635
+    },
+    {
+      "domain": "Data Protection and Data Sharing",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which statement about Database and Schema is accurate?",
+      "choices": {
+        "A": "A virtual warehouse is a named abstraction for a cluster of cloud-based compute instances that Snowflake provisions and manages",
+        "B": "Only the columns needed for a query are read, reducing the amount of data read from disk (read optimization)",
+        "C": "The underlying nodes of a virtual warehouse cooperate in a similar way to a shared-nothing compute cluster, making use of local caching",
+        "D": "A database can be created from scratch, cloned from an existing database, created with a retention policy, or created as a replica or from a shared database"
+      },
+      "correctAnswer": "D",
+      "explanation": "A database can be created from scratch, cloned from an existing database, created with a retention policy, or created as a replica or from a shared database.",
+      "id": 636
+    },
+    {
+      "domain": "Data Protection and Data Sharing",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Table Types is accurate?",
+      "choices": {
+        "A": "Data is also encrypted at rest and in transit",
+        "B": "Designed for use cases where fail-safe is not required",
+        "C": "Fail-safe: 7 days (Snowflake can restore deleted data during this period)",
+        "D": "Scaling still limited because shuffling data between nodes is expensive"
+      },
+      "correctAnswer": "B",
+      "explanation": "Designed for use cases where fail-safe is not required.",
+      "id": 637
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For View Types, which option is correct?",
+      "choices": {
+        "A": "Storage: Costs are incurred for storing the materialized data",
+        "B": "Some query optimizations are bypassed to improve security",
+        "C": "Schemas can also be cloned from existing schemas",
+        "D": "Both standard and materialized views can be secure"
+      },
+      "correctAnswer": "D",
+      "explanation": "Both standard and materialized views can be secure.",
+      "id": 638
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For User-Defined Functions (UDFs), which option is correct?",
+      "choices": {
+        "A": "This combination of tasks and streams is ideal for implementing incremental ETL pipelines, where changes to a source table are tracked and processed continuously",
+        "B": "UDFs are distinct from stored procedures in that UDFs can be used directly within SQL queries, whereas stored procedures cannot be used as part of a SQL statement",
+        "C": "The result of querying a stream includes DML changes made to the source table, along with metadata such as the type of action (INSERT, UPDATE, DELETE)",
+        "D": "In addition to SQL and JavaScript, you can write UDFs in Python and Java. These languages offer more flexibility for complex logic and integrations"
+      },
+      "correctAnswer": "B",
+      "explanation": "UDFs are distinct from stored procedures in that UDFs can be used directly within SQL queries, whereas stored procedures cannot be used as part of a SQL statement.",
+      "id": 639
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For UDFs in Other Languages, which option is correct?",
+      "choices": {
+        "A": "This combination of tasks and streams is ideal for implementing incremental ETL pipelines, where changes to a source table are tracked and processed continuously",
+        "B": "The result of querying a stream includes DML changes made to the source table, along with metadata such as the type of action (INSERT, UPDATE, DELETE)",
+        "C": "UDFs are distinct from stored procedures in that UDFs can be used directly within SQL queries, whereas stored procedures cannot be used as part of a SQL statement",
+        "D": "In addition to SQL and JavaScript, you can write UDFs in Python and Java. These languages offer more flexibility for complex logic and integrations"
+      },
+      "correctAnswer": "D",
+      "explanation": "In addition to SQL and JavaScript, you can write UDFs in Python and Java. These languages offer more flexibility for complex logic and integrations.",
+      "id": 640
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes External Functions?",
+      "choices": {
+        "A": "External functions are not sharable, less secure, and may incur egress charges",
+        "B": "They are slower than internal UDFs but much more flexible",
+        "C": "They are less secure and are subject to egress charges",
+        "D": "Currently, external functions are limited to scalar functions and cannot return tabular results"
+      },
+      "correctAnswer": "D",
+      "explanation": "Currently, external functions are limited to scalar functions and cannot return tabular results.",
+      "id": 641
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Stored Procedures in Snowflake?",
+      "choices": {
+        "A": "Stored procedures in Snowflake can return values or perform actions without returning a result",
+        "B": "EXECUTE AS CALLER: The procedure runs with the privileges of the caller",
+        "C": "In this example, the procedure returns a confirmation string",
+        "D": "Snowpark: Use Python, Java, or Scala to write stored procedures"
+      },
+      "correctAnswer": "B",
+      "explanation": "EXECUTE AS CALLER: The procedure runs with the privileges of the caller.",
+      "id": 642
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about UDF vs Stored Procedure is accurate?",
+      "choices": {
+        "A": "Example use case: Calculating the area of a circle from a table of radii",
+        "B": "Example use case: Deleting old records from multiple tables, as shown above",
+        "C": "Use UDFs when you need to return a value that can be used in SQL queries",
+        "D": "Use stored procedures when you need to perform actions such as database updates or automation tasks"
+      },
+      "correctAnswer": "A",
+      "explanation": "Example use case: Calculating the area of a circle from a table of radii.",
+      "id": 643
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Tasks is accurate?",
+      "choices": {
+        "A": "Type Mapping: Snowflake data types are automatically mapped to JavaScript data types",
+        "B": "Tasks can be chained together into a Directed Acyclic Graph (DAG)",
+        "C": "You can declare variables and assign values within procedural code",
+        "D": "Be stored in the same database and schema"
+      },
+      "correctAnswer": "B",
+      "explanation": "Tasks can be chained together into a Directed Acyclic Graph (DAG).",
+      "id": 644
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Using Tasks with Streams, which option is correct?",
+      "choices": {
+        "A": "This combination of tasks and streams is ideal for implementing incremental ETL pipelines, where changes to a source table are tracked and processed continuously",
+        "B": "In addition to SQL and JavaScript, you can write UDFs in Python and Java. These languages offer more flexibility for complex logic and integrations",
+        "C": "The result of querying a stream includes DML changes made to the source table, along with metadata such as the type of action (INSERT, UPDATE, DELETE)",
+        "D": "UDFs are distinct from stored procedures in that UDFs can be used directly within SQL queries, whereas stored procedures cannot be used as part of a SQL statement"
+      },
+      "correctAnswer": "A",
+      "explanation": "This combination of tasks and streams is ideal for implementing incremental ETL pipelines, where changes to a source table are tracked and processed continuously.",
+      "id": 645
+    },
+    {
+      "domain": "Data Loading and Unloading",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which option best describes Compute Billing (Billed in Snowflake Credits)?",
+      "choices": {
+        "A": "Costs are predictable and typically a small percentage of the overall compute usage",
+        "B": "Unlike cloud services, these are billed based on the actual resources consumed for the operation",
+        "C": "Includes activities like query execution, data loading/unloading, and other operations performed by user-provisioned virtual warehouses",
+        "D": "Includes metadata management, query optimization, authentication, and other system activities running in the Cloud Services Layer"
+      },
+      "correctAnswer": "C",
+      "explanation": "Includes activities like query execution, data loading/unloading, and other operations performed by user-provisioned virtual warehouses.",
+      "id": 646
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Data Storage and Transfer Billing (Billed by the Cloud Provider) is accurate for this case?",
+      "choices": {
+        "A": "Since multi-cluster warehouses dynamically scale based on demand, the actual credit usage is usually a fraction of the maximum consumption",
+        "B": "Includes structured and semi-structured data stored in tables, as well as file storage in Snowflake stages",
+        "C": "Snowflake uses automatic clustering to organize data into micro-partitions, improving query performance by reducing the amount of data scanned",
+        "D": "Costs are billed based on the amount of data stored and the duration of storage (per TB per month)"
+      },
+      "correctAnswer": "D",
+      "explanation": "Costs are billed based on the amount of data stored and the duration of storage (per TB per month).",
+      "id": 647
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which option best describes Snowflake Scripting?",
+      "choices": {
+        "A": "Use cursors to iterate over result sets",
+        "B": "You can declare variables and assign values within procedural code",
+        "C": "External functions are slower than internal UDFs",
+        "D": "Use IF, ELSE, and CASE for conditional logic"
+      },
+      "correctAnswer": "A",
+      "explanation": "Use cursors to iterate over result sets.",
+      "id": 648
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Snowpark is accurate?",
+      "choices": {
+        "A": "Operations on DataFrames are not executed immediately. Execution only occurs when an action like collect() or write() is called",
+        "B": "Ease of Use: The DataFrame API provides a familiar and intuitive interface for data manipulation",
+        "C": "Code can be written in Python, Scala, or Java, enabling flexibility for developers with diverse skill sets",
+        "D": "All transformations (e.g., select, filter, join) are sent to Snowflake for execution using Snowflake's compute engine"
+      },
+      "correctAnswer": "C",
+      "explanation": "Code can be written in Python, Scala, or Java, enabling flexibility for developers with diverse skill sets.",
+      "id": 649
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which option best describes Overview?",
+      "choices": {
+        "A": "For large tables, explicitly defining a clustering key can improve performance for range queries or filtering",
+        "B": "Specifies the time (in seconds) after which a running SQL statement is aborted on a warehouse",
+        "C": "You can spin up and shut down a virtually unlimited number of warehouses without resource contention",
+        "D": "Resource Monitors are a proactive tool to manage and control credit usage, avoiding unplanned costs"
+      },
+      "correctAnswer": "C",
+      "explanation": "You can spin up and shut down a virtually unlimited number of warehouses without resource contention.",
+      "id": 650
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Warehouse State and Properties is accurate for this case?",
+      "choices": {
+        "A": "Resizing can occur while the warehouse is running",
+        "B": "The warehouse is stopped and does not consume credits",
+        "C": "The warehouse is actively changing its size",
+        "D": "The warehouse is running and can execute queries"
+      },
+      "correctAnswer": "A",
+      "explanation": "Resizing can occur while the warehouse is running.",
+      "id": 651
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Managing Warehouse States for this case?",
+      "choices": {
+        "A": "To automatically resume a warehouse when a query is submitted, use the AUTO_RESUME parameter",
+        "B": "To automatically suspend a warehouse after a period of inactivity, use the AUTO_SUSPEND parameter",
+        "C": "The query must involve sufficient partitions to justify the use of additional compute resources",
+        "D": "You can manually suspend or resume a warehouse using the ALTER WAREHOUSE command"
+      },
+      "correctAnswer": "A",
+      "explanation": "To automatically resume a warehouse when a query is submitted, use the AUTO_RESUME parameter.",
+      "id": 652
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Warehouse Size and Billing, which option is correct for this case?",
+      "choices": {
+        "A": "Virtual Warehouses can be created in 10 t-shirt sizes ranging from X-SMALL to 6X-LARGE",
+        "B": "Choosing the right size is typically determined by testing a representative query or workload",
+        "C": "The first 60 seconds are always billed, followed by per-second billing",
+        "D": "Billing starts when a warehouse is started, even if no queries are being executed"
+      },
+      "correctAnswer": "B",
+      "explanation": "Choosing the right size is typically determined by testing a representative query or workload.",
+      "id": 653
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Resource Monitors is accurate?",
+      "choices": {
+        "A": "Storage: Costs are incurred for storing the materialized data",
+        "B": "The warehouse is stopped and does not consume credits",
+        "C": "They can be applied at the account level or to specific warehouses",
+        "D": "Only account administrators can create and manage Resource Monitors"
+      },
+      "correctAnswer": "D",
+      "explanation": "Only account administrators can create and manage Resource Monitors.",
+      "id": 654
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Best Practices for Warehouse Size and Resource Monitors, which option is correct?",
+      "choices": {
+        "A": "Use Resource Monitors to set credit limits and enforce cost controls",
+        "B": "Use larger warehouses only for workloads that require high concurrency or complex queries",
+        "C": "Virtual Warehouses can be manually resized through the Snowflake UI or SQL commands",
+        "D": "On-demand pricing: You pay for what you use, calculated based on actual consumption"
+      },
+      "correctAnswer": "B",
+      "explanation": "Use larger warehouses only for workloads that require high concurrency or complex queries.",
+      "id": 655
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Scaling Up a Virtual Warehouse, which option is correct?",
+      "choices": {
+        "A": "Scaling up a Virtual Warehouse involves resizing it to a larger size, which can improve query performance",
+        "B": "Every minute, a background process checks if the load on the least busy warehouse can be redistributed",
+        "C": "Virtual Warehouses can be manually resized through the Snowflake UI or SQL commands",
+        "D": "Micro-partitions are optimized for storage and query performance (e.g., range metadata is stored for fast partition pruning)"
+      },
+      "correctAnswer": "A",
+      "explanation": "Scaling up a Virtual Warehouse involves resizing it to a larger size, which can improve query performance.",
+      "id": 656
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Scaling Out: Multi-Cluster Warehouses?",
+      "choices": {
+        "A": "A visual tool available in the Snowflake Web UI that allows users to view query execution plans and analyze performance bottlenecks",
+        "B": "If MIN_CLUSTER_COUNT and MAX_CLUSTER_COUNT are set to different values, the multi-cluster warehouse will scale in and out dynamically based on demand",
+        "C": "The total credit cost of a multi-cluster warehouse is the sum of all the individual running warehouses in the group",
+        "D": "A multi-cluster warehouse is a group of Virtual Warehouses that can automatically scale in and out based on query demand and concurrency levels"
+      },
+      "correctAnswer": "B",
+      "explanation": "If MIN_CLUSTER_COUNT and MAX_CLUSTER_COUNT are set to different values, the multi-cluster warehouse will scale in and out dynamically based on demand.",
+      "id": 657
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Scaling Policies?",
+      "choices": {
+        "A": "Micro-partitions are optimized for storage and query performance (e.g., range metadata is stored for fast partition pruning)",
+        "B": "If this condition is met for 2 consecutive minutes, the least busy warehouse is marked for shutdown",
+        "C": "Every minute, a background process checks if the load on the least busy warehouse can be redistributed",
+        "D": "Scaling up a Virtual Warehouse involves resizing it to a larger size, which can improve query performance"
+      },
+      "correctAnswer": "B",
+      "explanation": "If this condition is met for 2 consecutive minutes, the least busy warehouse is marked for shutdown.",
+      "id": 658
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Credit Consumption in Multi-Cluster Warehouses, which option is correct for this case?",
+      "choices": {
+        "A": "If MIN_CLUSTER_COUNT and MAX_CLUSTER_COUNT are set to different values, the multi-cluster warehouse will scale in and out dynamically based on demand",
+        "B": "A visual tool available in the Snowflake Web UI that allows users to view query execution plans and analyze performance bottlenecks",
+        "C": "The total credit cost of a multi-cluster warehouse is the sum of all the individual running warehouses in the group",
+        "D": "Since multi-cluster warehouses dynamically scale based on demand, the actual credit usage is usually a fraction of the maximum consumption"
+      },
+      "correctAnswer": "C",
+      "explanation": "The total credit cost of a multi-cluster warehouse is the sum of all the individual running warehouses in the group.",
+      "id": 659
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which option best describes Concurrency Behavior Properties?",
+      "choices": {
+        "A": "Specifies the time (in seconds) a SQL statement can remain queued on a warehouse before it is aborted",
+        "B": "Use the execution graph to understand how each step in the query plan contributes to overall execution time",
+        "C": "Specifies the time (in seconds) after which a running SQL statement is aborted on a warehouse",
+        "D": "A high percentage from the cache is desirable, as it means fewer expensive reads from the storage layer"
+      },
+      "correctAnswer": "A",
+      "explanation": "Specifies the time (in seconds) a SQL statement can remain queued on a warehouse before it is aborted.",
+      "id": 660
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which option best describes Query Acceleration Eligibility?",
+      "choices": {
+        "A": "At least part of the query plan must be able to run in parallel",
+        "B": "To automatically suspend a warehouse after a period of inactivity, use the AUTO_SUSPEND parameter",
+        "C": "To automatically resume a warehouse when a query is submitted, use the AUTO_RESUME parameter",
+        "D": "The query must involve sufficient partitions to justify the use of additional compute resources"
+      },
+      "correctAnswer": "D",
+      "explanation": "The query must involve sufficient partitions to justify the use of additional compute resources.",
+      "id": 661
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Verifying Query Acceleration Eligibility, which option is correct?",
+      "choices": {
+        "A": "Whether the query plan can be parallelized",
+        "B": "Resizing can occur while the warehouse is running",
+        "C": "The warehouse is running and can execute queries",
+        "D": "The warehouse is actively changing its size"
+      },
+      "correctAnswer": "A",
+      "explanation": "Whether the query plan can be parallelized.",
+      "id": 662
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Analytics Tools is accurate?",
+      "choices": {
+        "A": "Use the execution graph to understand how each step in the query plan contributes to overall execution time",
+        "B": "Specifies the time (in seconds) a SQL statement can remain queued on a warehouse before it is aborted",
+        "C": "A visual tool available in the Snowflake Web UI that allows users to view query execution plans and analyze performance bottlenecks",
+        "D": "The Search Optimization Service is designed to improve query performance for point lookups or queries with selective filters"
+      },
+      "correctAnswer": "A",
+      "explanation": "Use the execution graph to understand how each step in the query plan contributes to overall execution time.",
+      "id": 663
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For SQL Tuning, which option is correct for this case?",
+      "choices": {
+        "A": "To automatically suspend a warehouse after a period of inactivity, use the AUTO_SUSPEND parameter",
+        "B": "Use WHERE and JOIN clauses to limit the amount of data retrieved and processed",
+        "C": "The query must involve sufficient partitions to justify the use of additional compute resources",
+        "D": "Avoid nested queries or unoptimized joins when simpler alternatives are available"
+      },
+      "correctAnswer": "B",
+      "explanation": "Use WHERE and JOIN clauses to limit the amount of data retrieved and processed.",
+      "id": 664
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Caching, which option is correct?",
+      "choices": {
+        "A": "If a table is clustered by a date column, queries filtering on a date range will scan fewer partitions, reducing query execution time",
+        "B": "A multi-cluster warehouse is a group of Virtual Warehouses that can automatically scale in and out based on query demand and concurrency levels",
+        "C": "When a query is queued, the system estimates whether there is enough query load to keep a new warehouse busy for 6 minutes",
+        "D": "Improves performance for subsequent queries accessing the same data, as the data is read from the local cache instead of the storage layer"
+      },
+      "correctAnswer": "D",
+      "explanation": "Improves performance for subsequent queries accessing the same data, as the data is read from the local cache instead of the storage layer.",
+      "id": 665
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Clustering and Pruning, which option is correct?",
+      "choices": {
+        "A": "Specifies the time (in seconds) after which a running SQL statement is aborted on a warehouse",
+        "B": "For large tables, explicitly defining a clustering key can improve performance for range queries or filtering",
+        "C": "Snowflake uses automatic clustering to organize data into micro-partitions, improving query performance by reducing the amount of data scanned",
+        "D": "You can spin up and shut down a virtually unlimited number of warehouses without resource contention"
+      },
+      "correctAnswer": "B",
+      "explanation": "For large tables, explicitly defining a clustering key can improve performance for range queries or filtering.",
+      "id": 666
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which option best describes Search Optimization Service?",
+      "choices": {
+        "A": "A high percentage from the cache is desirable, as it means fewer expensive reads from the storage layer",
+        "B": "Use the execution graph to understand how each step in the query plan contributes to overall execution time",
+        "C": "It is optional and specifically useful for queries that access small subsets of large tables",
+        "D": "The Search Optimization Service is designed to improve query performance for point lookups or queries with selective filters"
+      },
+      "correctAnswer": "D",
+      "explanation": "The Search Optimization Service is designed to improve query performance for point lookups or queries with selective filters.",
+      "id": 667
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which statement about Total Micro-Partitions vs. Scanned Micro-Partitions is accurate?",
+      "choices": {
+        "A": "Optimization: Fewer micro-partitions scanned indicates better query performance, as irrelevant partitions are skipped",
+        "B": "Costs are predictable and typically a small percentage of the overall compute usage",
+        "C": "Micro-partitions are optimized for storage and query performance (e.g., range metadata is stored for fast partition pruning)",
+        "D": "Snowflake uses partition pruning to minimize the number of micro-partitions scanned, based on query filters and clustering"
+      },
+      "correctAnswer": "A",
+      "explanation": "Optimization: Fewer micro-partitions scanned indicates better query performance, as irrelevant partitions are skipped.",
+      "id": 668
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Percentage Scanned from the Data Cache, which option is correct?",
+      "choices": {
+        "A": "Use a persistent Virtual Warehouse for frequently accessed datasets to maximize cache hits",
+        "B": "Use larger warehouses only for workloads that require high concurrency or complex queries",
+        "C": "You can manually suspend or resume a warehouse using the ALTER WAREHOUSE command",
+        "D": "On-demand pricing: You pay for what you use, calculated based on actual consumption"
+      },
+      "correctAnswer": "A",
+      "explanation": "Use a persistent Virtual Warehouse for frequently accessed datasets to maximize cache hits.",
+      "id": 669
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Spilling to Local or Remote Storage, which option is correct for this case?",
+      "choices": {
+        "A": "Data is spilled to the local SSDs of the Virtual Warehouse",
+        "B": "Occurs when a query requires more memory than is available in the warehouse’s allocated memory",
+        "C": "If local storage is insufficient, Snowflake spills data to its central storage layer",
+        "D": "Use appropriately sized warehouses for queries with high memory requirements"
+      },
+      "correctAnswer": "C",
+      "explanation": "If local storage is insufficient, Snowflake spills data to its central storage layer.",
+      "id": 670
+    },
+    {
+      "domain": "Data Protection and Data Sharing",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which option best describes Multi-Cluster Shared Data Architecture?",
+      "choices": {
+        "A": "Storage and compute are tightly coupled",
+        "B": "Designed for use cases where fail-safe is not required",
+        "C": "Data is also encrypted at rest and in transit",
+        "D": "Scaling still limited because shuffling data between nodes is expensive"
+      },
+      "correctAnswer": "A",
+      "explanation": "Storage and compute are tightly coupled.",
+      "id": 671
+    },
+    {
+      "domain": "Data Protection and Data Sharing",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Storage Layer is accurate?",
+      "choices": {
+        "A": "Both structured and semi-structured data files can be loaded and stored in Snowflake",
+        "B": "Data is not directly accessible in the underlying blob storage, only via SQL commands",
+        "C": "Designed for use cases where fail-safe is not required",
+        "D": "Data is also encrypted at rest and in transit"
+      },
+      "correctAnswer": "D",
+      "explanation": "Data is also encrypted at rest and in transit.",
+      "id": 672
+    },
+    {
+      "domain": "Data Protection and Data Sharing",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Compute Layer (Query Processing) is accurate?",
+      "choices": {
+        "A": "Storage is billed by how much data is stored, based on a flat rate per TB calculated monthly",
+        "B": "Only the columns needed for a query are read, reducing the amount of data read from disk (read optimization)",
+        "C": "A virtual warehouse is a named abstraction for a cluster of cloud-based compute instances that Snowflake provisions and manages",
+        "D": "The underlying nodes of a virtual warehouse cooperate in a similar way to a shared-nothing compute cluster, making use of local caching"
+      },
+      "correctAnswer": "D",
+      "explanation": "The underlying nodes of a virtual warehouse cooperate in a similar way to a shared-nothing compute cluster, making use of local caching.",
+      "id": 673
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Editions and Features, which option is correct?",
+      "choices": {
+        "A": "Includes all features of the Enterprise edition",
+        "B": "Includes all features of the Business Critical edition",
+        "C": "Data stored in databases, schemas, tables, and columns",
+        "D": "Table: Logical representation of the stored data"
+      },
+      "correctAnswer": "A",
+      "explanation": "Includes all features of the Enterprise edition.",
+      "id": 674
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which option best describes Account?",
+      "choices": {
+        "A": "Edition: Each account is created with a single Snowflake edition (can be updated later)",
+        "B": "If the source table is dropped, querying the view returns an error",
+        "C": "Cloud Platform: Each account is hosted on a single cloud provider (AWS, GCP, or Azure)",
+        "D": "Region: Each account is provisioned in a single geographic region (consider regulatory restrictions when moving data between regions)"
+      },
+      "correctAnswer": "A",
+      "explanation": "Edition: Each account is created with a single Snowflake edition (can be updated later).",
+      "id": 675
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "For Database and Schema, which option is correct?",
+      "choices": {
+        "A": "Both standard and materialized views can be secure",
+        "B": "Schemas can also be cloned from existing schemas",
+        "C": "Data stored in databases, schemas, tables, and columns",
+        "D": "Includes all features of the Business Critical edition"
+      },
+      "correctAnswer": "B",
+      "explanation": "Schemas can also be cloned from existing schemas.",
+      "id": 676
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Table Types?",
+      "choices": {
+        "A": "Set up and administer Snowflake features that make use of multiple accounts, e.g., database replication and failover",
+        "B": "Enables querying of data outside Snowflake, e.g., an Azure container, by overlaying a structure on this external data",
+        "C": "Fail-safe: 7 days (Snowflake can restore deleted data during this period)",
+        "D": "Region: Each account is provisioned in a single geographic region (consider regulatory restrictions when moving data between regions)"
+      },
+      "correctAnswer": "B",
+      "explanation": "Enables querying of data outside Snowflake, e.g., an Azure container, by overlaying a structure on this external data.",
+      "id": 677
+    },
+    {
+      "domain": "Snowflake AI Data Cloud Features and Architecture",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes View Types?",
+      "choices": {
+        "A": "Some query optimizations are bypassed to improve security",
+        "B": "If the source table is dropped, querying the view returns an error",
+        "C": "Both standard and materialized views can be secure",
+        "D": "Storage: Costs are incurred for storing the materialized data"
+      },
+      "correctAnswer": "B",
+      "explanation": "If the source table is dropped, querying the view returns an error.",
+      "id": 678
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about UDFs in Other Languages is accurate?",
+      "choices": {
+        "A": "Use IF, ELSE, and CASE for conditional logic",
+        "B": "Be stored in the same database and schema",
+        "C": "Type Mapping: Snowflake data types are automatically mapped to JavaScript data types",
+        "D": "Recursion: JavaScript UDFs can refer to themselves recursively"
+      },
+      "correctAnswer": "D",
+      "explanation": "Recursion: JavaScript UDFs can refer to themselves recursively.",
+      "id": 679
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes External Functions for this case?",
+      "choices": {
+        "A": "Currently, external functions are limited to scalar functions and cannot return tabular results",
+        "B": "They are less secure and are subject to egress charges",
+        "C": "External functions are not sharable, less secure, and may incur egress charges",
+        "D": "They are slower than internal UDFs but much more flexible"
+      },
+      "correctAnswer": "C",
+      "explanation": "External functions are not sharable, less secure, and may incur egress charges.",
+      "id": 680
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Stored Procedures in Snowflake, which option is correct?",
+      "choices": {
+        "A": "In this example, the procedure returns a confirmation string",
+        "B": "Stored procedures in Snowflake can return values or perform actions without returning a result",
+        "C": "EXECUTE AS OWNER: The procedure runs with the privileges of the procedure owner",
+        "D": "Snowpark: Use Python, Java, or Scala to write stored procedures"
+      },
+      "correctAnswer": "C",
+      "explanation": "EXECUTE AS OWNER: The procedure runs with the privileges of the procedure owner.",
+      "id": 681
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about UDF vs Stored Procedure is accurate for this case?",
+      "choices": {
+        "A": "Example use case: Calculating the area of a circle from a table of radii",
+        "B": "Use stored procedures when you need to perform actions such as database updates or automation tasks",
+        "C": "Example use case: Deleting old records from multiple tables, as shown above",
+        "D": "EXECUTE AS CALLER: The procedure runs with the privileges of the caller"
+      },
+      "correctAnswer": "C",
+      "explanation": "Example use case: Deleting old records from multiple tables, as shown above.",
+      "id": 682
+    },
+    {
+      "domain": "Account Access and Security",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which option best describes Compute Billing (Billed in Snowflake Credits) for this case?",
+      "choices": {
+        "A": "Costs are predictable and typically a small percentage of the overall compute usage",
+        "B": "Includes metadata management, query optimization, authentication, and other system activities running in the Cloud Services Layer",
+        "C": "Includes activities like query execution, data loading/unloading, and other operations performed by user-provisioned virtual warehouses",
+        "D": "Unlike cloud services, these are billed based on the actual resources consumed for the operation"
+      },
+      "correctAnswer": "B",
+      "explanation": "Includes metadata management, query optimization, authentication, and other system activities running in the Cloud Services Layer.",
+      "id": 683
+    },
+    {
+      "domain": "Data Loading and Unloading",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Data Storage and Transfer Billing (Billed by the Cloud Provider) is accurate for this case?",
+      "choices": {
+        "A": "Includes activities like query execution, data loading/unloading, and other operations performed by user-provisioned virtual warehouses",
+        "B": "Costs are billed based on the amount of data stored and the duration of storage (per TB per month)",
+        "C": "Includes structured and semi-structured data stored in tables, as well as file storage in Snowflake stages",
+        "D": "Charges for data stored in Snowflake's centralized storage layer"
+      },
+      "correctAnswer": "C",
+      "explanation": "Includes structured and semi-structured data stored in tables, as well as file storage in Snowflake stages.",
+      "id": 684
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Snowflake Scripting is accurate?",
+      "choices": {
+        "A": "They are less secure and are subject to egress charges",
+        "B": "Use cursors to iterate over result sets",
+        "C": "You can declare variables and assign values within procedural code",
+        "D": "Use IF, ELSE, and CASE for conditional logic"
+      },
+      "correctAnswer": "C",
+      "explanation": "You can declare variables and assign values within procedural code.",
+      "id": 685
+    },
+    {
+      "domain": "Data Transformations",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which statement about Snowpark is accurate for this case?",
+      "choices": {
+        "A": "Ease of Use: The DataFrame API provides a familiar and intuitive interface for data manipulation",
+        "B": "Code can be written in Python, Scala, or Java, enabling flexibility for developers with diverse skill sets",
+        "C": "All transformations (e.g., select, filter, join) are sent to Snowflake for execution using Snowflake's compute engine",
+        "D": "Flexibility: Supports multiple languages (Python, Java, Scala) to cater to developers' preferences"
+      },
+      "correctAnswer": "A",
+      "explanation": "Ease of Use: The DataFrame API provides a familiar and intuitive interface for data manipulation.",
+      "id": 686
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Warehouse State and Properties?",
+      "choices": {
+        "A": "The warehouse is actively changing its size",
+        "B": "The warehouse is stopped and does not consume credits",
+        "C": "The warehouse is running and can execute queries",
+        "D": "Resizing can occur while the warehouse is running"
+      },
+      "correctAnswer": "A",
+      "explanation": "The warehouse is actively changing its size.",
+      "id": 687
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Managing Warehouse States, which option is correct?",
+      "choices": {
+        "A": "The query must involve sufficient partitions to justify the use of additional compute resources",
+        "B": "You can manually suspend or resume a warehouse using the ALTER WAREHOUSE command",
+        "C": "To automatically resume a warehouse when a query is submitted, use the AUTO_RESUME parameter",
+        "D": "To automatically suspend a warehouse after a period of inactivity, use the AUTO_SUSPEND parameter"
+      },
+      "correctAnswer": "D",
+      "explanation": "To automatically suspend a warehouse after a period of inactivity, use the AUTO_SUSPEND parameter.",
+      "id": 688
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "intermediate",
+      "origin": "From Github",
+      "question": "Which option best describes Warehouse Size and Billing?",
+      "choices": {
+        "A": "Virtual Warehouses can be created in 10 t-shirt sizes ranging from X-SMALL to 6X-LARGE",
+        "B": "Billing starts when a warehouse is started, even if no queries are being executed",
+        "C": "The first 60 seconds are always billed, followed by per-second billing",
+        "D": "Choosing the right size is typically determined by testing a representative query or workload"
+      },
+      "correctAnswer": "C",
+      "explanation": "The first 60 seconds are always billed, followed by per-second billing.",
+      "id": 689
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Resource Monitors is accurate for this case?",
+      "choices": {
+        "A": "They can be applied at the account level or to specific warehouses",
+        "B": "Resource Monitors are a proactive tool to manage and control credit usage, avoiding unplanned costs",
+        "C": "Resource Monitors are objects used to set credit usage limits on Virtual Warehouses or accounts",
+        "D": "Limits can be set for a specified interval (e.g., daily, weekly, or monthly) or a specific date range"
+      },
+      "correctAnswer": "B",
+      "explanation": "Resource Monitors are a proactive tool to manage and control credit usage, avoiding unplanned costs.",
+      "id": 690
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which statement about Scaling Up a Virtual Warehouse is accurate for this case?",
+      "choices": {
+        "A": "Virtual Warehouses can be manually resized through the Snowflake UI or SQL commands",
+        "B": "You can manually suspend or resume a warehouse using the ALTER WAREHOUSE command",
+        "C": "Additional compute resources are used for queued and new queries",
+        "D": "Use larger warehouses only for workloads that require high concurrency or complex queries"
+      },
+      "correctAnswer": "A",
+      "explanation": "Virtual Warehouses can be manually resized through the Snowflake UI or SQL commands.",
+      "id": 691
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "Which option best describes Scaling Policies for this case?",
+      "choices": {
+        "A": "Micro-partitions are optimized for storage and query performance (e.g., range metadata is stored for fast partition pruning)",
+        "B": "If this condition is met for 6 consecutive minutes, the least busy warehouse is marked for shutdown",
+        "C": "Scaling up a Virtual Warehouse involves resizing it to a larger size, which can improve query performance",
+        "D": "Every minute, a background process checks if the load on the least busy warehouse can be redistributed"
+      },
+      "correctAnswer": "B",
+      "explanation": "If this condition is met for 6 consecutive minutes, the least busy warehouse is marked for shutdown.",
+      "id": 692
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Concurrency Behavior Properties, which option is correct for this case?",
+      "choices": {
+        "A": "You can spin up and shut down a virtually unlimited number of warehouses without resource contention",
+        "B": "Specifies the time (in seconds) a SQL statement can remain queued on a warehouse before it is aborted",
+        "C": "For large tables, explicitly defining a clustering key can improve performance for range queries or filtering",
+        "D": "Specifies the time (in seconds) after which a running SQL statement is aborted on a warehouse"
+      },
+      "correctAnswer": "D",
+      "explanation": "Specifies the time (in seconds) after which a running SQL statement is aborted on a warehouse.",
+      "id": 693
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "basic",
+      "origin": "From Github",
+      "question": "For Caching, which option is correct for this case?",
+      "choices": {
+        "A": "Resizing can occur while the warehouse is running",
+        "B": "Cache is cleared when the warehouse is resized, suspended, or restarted",
+        "C": "The warehouse is running and can execute queries",
+        "D": "Results are invalidated if the underlying data changes"
+      },
+      "correctAnswer": "D",
+      "explanation": "Results are invalidated if the underlying data changes.",
+      "id": 694
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which statement about Clustering and Pruning is accurate?",
+      "choices": {
+        "A": "A multi-cluster warehouse is a group of Virtual Warehouses that can automatically scale in and out based on query demand and concurrency levels",
+        "B": "If a table is clustered by a date column, queries filtering on a date range will scan fewer partitions, reducing query execution time",
+        "C": "Snowflake uses automatic clustering to organize data into micro-partitions, improving query performance by reducing the amount of data scanned",
+        "D": "When a query is queued, the system estimates whether there is enough query load to keep a new warehouse busy for 6 minutes"
+      },
+      "correctAnswer": "B",
+      "explanation": "If a table is clustered by a date column, queries filtering on a date range will scan fewer partitions, reducing query execution time.",
+      "id": 695
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "For Search Optimization Service, which option is correct for this case?",
+      "choices": {
+        "A": "Data is spilled to the local SSDs of the Virtual Warehouse",
+        "B": "The service creates and maintains additional indexing-like metadata to enable faster lookups",
+        "C": "It is optional and specifically useful for queries that access small subsets of large tables",
+        "D": "They can be applied at the account level or to specific warehouses"
+      },
+      "correctAnswer": "B",
+      "explanation": "The service creates and maintains additional indexing-like metadata to enable faster lookups.",
+      "id": 696
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which statement about Total Micro-Partitions vs. Scanned Micro-Partitions is accurate for this case?",
+      "choices": {
+        "A": "Scaling up a Virtual Warehouse involves resizing it to a larger size, which can improve query performance",
+        "B": "Micro-partitions are optimized for storage and query performance (e.g., range metadata is stored for fast partition pruning)",
+        "C": "Snowflake uses partition pruning to minimize the number of micro-partitions scanned, based on query filters and clustering",
+        "D": "Optimization: Fewer micro-partitions scanned indicates better query performance, as irrelevant partitions are skipped"
+      },
+      "correctAnswer": "C",
+      "explanation": "Snowflake uses partition pruning to minimize the number of micro-partitions scanned, based on query filters and clustering.",
+      "id": 697
+    },
+    {
+      "domain": "Performance and Cost Optimization Concepts",
+      "difficulty": "advanced",
+      "origin": "From Github",
+      "question": "Which statement about Spilling to Local or Remote Storage is accurate?",
+      "choices": {
+        "A": "Data is spilled to the local SSDs of the Virtual Warehouse",
+        "B": "If local storage is insufficient, Snowflake spills data to its central storage layer",
+        "C": "Unlike cloud services, these are billed based on the actual resources consumed for the operation",
+        "D": "Occurs when a query requires more memory than is available in the warehouse’s allocated memory"
+      },
+      "correctAnswer": "D",
+      "explanation": "Occurs when a query requires more memory than is available in the warehouse’s allocated memory.",
+      "id": 698
     }
   ]
 }

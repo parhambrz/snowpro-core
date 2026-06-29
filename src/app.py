@@ -2,7 +2,7 @@ import json
 import os
 import random
 import math
-from collections import defaultdict
+from collections import Counter, defaultdict
 from uuid import uuid4
 from datetime import datetime, timezone
 from pathlib import Path
@@ -433,7 +433,16 @@ def index():
     recent_results = list(reversed(all_results[-MAX_RECENT_RESULTS:]))
     available_domains = sorted({q["domain"] for q in questions})
     available_difficulties = sorted({q["difficulty"] for q in questions})
-    available_origins = sorted({q["origin"] for q in questions})
+    origin_counts = Counter(q["origin"] for q in questions)
+    origin_priority = {
+        "AI generated": 0,
+        "From Aditya": 1,
+        "From Github": 2,
+    }
+    available_origins = sorted(
+        origin_counts.keys(),
+        key=lambda origin: (origin_priority.get(origin, 99), origin),
+    )
     error_message = request.args.get("error")
     draft = load_draft()
 
@@ -474,6 +483,7 @@ def index():
         available_domains=available_domains,
         available_difficulties=available_difficulties,
         available_origins=available_origins,
+        origin_counts=origin_counts,
         error_message=error_message,
         draft_summary=draft_summary,
     )
