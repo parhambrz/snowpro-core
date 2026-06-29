@@ -10,7 +10,7 @@
   ],
   "questions": [
     {
-      "id": 900001,
+      "id": 1,
       "domain": "Core Data Concepts",
       "difficulty": "basic",
       "origin": "AI generated",
@@ -25,7 +25,7 @@
       "explanation": "Relational data is structured with a fixed schema and is typically stored in tables with rows and columns."
     },
     {
-      "id": 900002,
+      "id": 2,
       "domain": "Core Data Concepts",
       "difficulty": "basic",
       "origin": "AI generated",
@@ -40,7 +40,7 @@
       "explanation": "ACID stands for Atomicity, Consistency, Isolation, and Durability, which define reliable transaction behavior."
     },
     {
-      "id": 900003,
+      "id": 3,
       "domain": "Relational Data in Azure",
       "difficulty": "basic",
       "origin": "AI generated",
@@ -55,7 +55,7 @@
       "explanation": "Azure SQL Database is the managed relational database service in Azure built on SQL Server engine capabilities."
     },
     {
-      "id": 900004,
+      "id": 4,
       "domain": "Relational Data in Azure",
       "difficulty": "intermediate",
       "origin": "AI generated",
@@ -70,7 +70,7 @@
       "explanation": "Azure SQL Managed Instance provides near full SQL Server instance compatibility for migration scenarios."
     },
     {
-      "id": 900005,
+      "id": 5,
       "domain": "Non-Relational Data in Azure",
       "difficulty": "basic",
       "origin": "AI generated",
@@ -85,7 +85,7 @@
       "explanation": "Azure Cosmos DB is a globally distributed NoSQL database service that supports several APIs such as SQL and MongoDB-compatible APIs."
     },
     {
-      "id": 900006,
+      "id": 6,
       "domain": "Non-Relational Data in Azure",
       "difficulty": "basic",
       "origin": "AI generated",
@@ -100,7 +100,7 @@
       "explanation": "Azure Blob Storage is designed for massive unstructured data storage including documents, media, and backup files."
     },
     {
-      "id": 900007,
+      "id": 7,
       "domain": "Analytics Workloads in Azure",
       "difficulty": "intermediate",
       "origin": "AI generated",
@@ -115,7 +115,7 @@
       "explanation": "Azure Synapse Analytics unifies data integration, enterprise data warehousing, and big data analytics capabilities."
     },
     {
-      "id": 900008,
+      "id": 8,
       "domain": "Analytics Workloads in Azure",
       "difficulty": "basic",
       "origin": "AI generated",
@@ -130,7 +130,7 @@
       "explanation": "Dashboards provide visual summaries of KPIs, trends, and operational metrics for decision making."
     },
     {
-      "id": 900009,
+      "id": 9,
       "domain": "Core Data Concepts",
       "difficulty": "intermediate",
       "origin": "AI generated",
@@ -145,7 +145,7 @@
       "explanation": "ETL pipelines move and transform data from source systems into target analytical stores."
     },
     {
-      "id": 900010,
+      "id": 10,
       "domain": "Relational Data in Azure",
       "difficulty": "basic",
       "origin": "AI generated",
