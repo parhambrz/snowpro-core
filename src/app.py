@@ -25,7 +25,7 @@ RESULTS_FILENAME = "exam_results.json"
 DRAFT_FILENAME = "exam_draft.json"
 INCORRECT_FILENAME = "incorrect_questions.json"
 POTS_FILENAME = "question_pots.json"
-EXAM_SIZE = 100
+DEFAULT_EXAM_SIZE = 100
 PASSING_PERCENT = 75.0
 MAX_RECENT_RESULTS = 5
 DIFFICULTY_WEIGHTS = {
@@ -55,6 +55,7 @@ def discover_exams() -> dict[str, dict]:
                 "exam_name": payload.get("examName", exam_dir.name),
                 "question_file": question_file,
                 "question_count": len(payload.get("questions", [])),
+                "exam_size": resolve_exam_size(payload),
             }
 
     if not exams and LEGACY_QUESTION_BANK_FILE.exists():
@@ -65,9 +66,19 @@ def discover_exams() -> dict[str, dict]:
             "exam_name": payload.get("examName", "SnowPro Core"),
             "question_file": LEGACY_QUESTION_BANK_FILE,
             "question_count": len(payload.get("questions", [])),
+            "exam_size": resolve_exam_size(payload),
         }
 
     return exams
+
+
+def resolve_exam_size(payload: dict) -> int:
+    raw_size = payload.get("examSize", DEFAULT_EXAM_SIZE)
+    try:
+        size = int(raw_size)
+    except (TypeError, ValueError):
+        return DEFAULT_EXAM_SIZE
+    return size if size > 0 else DEFAULT_EXAM_SIZE
 
 
 def resolve_exam_id(exams: dict[str, dict]) -> str:
@@ -140,6 +151,7 @@ def load_question_bank(exam_id: str, exams: dict[str, dict]) -> dict:
         "exam_id": exam_id,
         "exam_name": raw.get("examName", "SnowPro Core"),
         "question_count": len(normalized_questions),
+        "exam_size": resolve_exam_size(raw),
         "questions": normalized_questions,
     }
 
@@ -586,7 +598,7 @@ def index():
         stats=stats,
         recent_results=recent_results,
         passing_percent=PASSING_PERCENT,
-        exam_size=EXAM_SIZE,
+        exam_size=question_bank["exam_size"],
         available_domains=available_domains,
         available_difficulties=available_difficulties,
         available_origins=available_origins,
@@ -652,7 +664,7 @@ def start_exam():
             )
         )
 
-    selected_count = min(EXAM_SIZE, len(filtered_questions))
+    selected_count = min(question_bank["exam_size"], len(filtered_questions))
     selected = build_balanced_exam_questions(filtered_questions, selected_count)
     question_ids = [q["id"] for q in selected]
 
