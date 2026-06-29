@@ -29,3 +29,5 @@ src/data/question_pots.json
 
 # Generated intermediate question bank (not source of truth)
 src/data/question_bank.json
+
+/data/*.md
